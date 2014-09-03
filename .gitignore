@@ -1,3 +1,12 @@
+node_modules
+public
+.tmp
+.sass-cache
+.idea
+client/bower_components
+dist
+/server/config/local.env.js
+
 # Created by http://www.gitignore.io
 
 ### SublimeText ###
