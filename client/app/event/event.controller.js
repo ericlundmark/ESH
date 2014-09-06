@@ -14,29 +14,4 @@ angular.module('eshApp')
     	$scope.busstop = busstops[0];
     	console.log($scope.busstop)
     });
-
-    $scope.events = {
-    	event: [
-	    	{
-	    		"eventId": 1,
-	    		"name": "bad",
-	    		"place": "ekerö"
-	    	},
-	    	{
-	    		"eventId": 2,
-	    		"name": "strand",
-	    		"place": "söderköping"
-	    	},
-	    	{
-	    		"eventId": 3,
-	    		"name": "öl",
-	    		"place": "norrland"
-	    	}
-    	]
-    };
-
-    $scope.onClick = function(string){
-    	console.log(string);
-    }
-
 });
