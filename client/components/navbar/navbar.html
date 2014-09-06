@@ -21,10 +21,10 @@
         <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/signup')}"><a href="/signup">Sign up</a></li>
         <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/login')}"><a href="/login">Login</a></li>
 
-        <!-- hemma gjorda start -->
+        <!-- hemma gjorda. start -->
         <li><a href="/event">Event</a></li>
         <li><a href="/event/create">Create event</a></li>
-        <!-- hemma gjorda slut -->
+        <!-- hemma gjorda. slut -->
 
         <li ng-show="isLoggedIn()"><p class="navbar-text">Hello {{ getCurrentUser().name }}</p> </li>
         <li ng-show="isLoggedIn()" ng-class="{active: isActive('/settings')}"><a href="/settings"><span class="glyphicon glyphicon-cog"></span></a></li>
