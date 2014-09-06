@@ -4,7 +4,6 @@ var https = require("https");
 var http = require('http');
 
 module.exports.nearestBusstop = function(position, success, error){
-	console.log(position.xCoord);
 	var radius = 500;
 	var str = '';
 
@@ -41,7 +40,7 @@ module.exports.nearestBusstop = function(position, success, error){
 module.exports.getWeather = function(position, success, error){
 	var radius = 500;
 	var str = '';
-	console.log("post " + position[0]);
+	console.log("GET WEATHER " + position[0]);
 	var options = {
 		method: 'GET',
 		host:'opendata-download-metfcst.smhi.se',
