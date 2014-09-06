@@ -83,8 +83,9 @@ var validationError = function(res, err) {
 
 exports.addEvent = function(req, res, next) {
 	console.log("HEHEJ");
-	var userId = req.user._id;
-  var eventId = req.eventId;
+	var userId = req.params.id;
+  var eventId = req.params.eventId;
+  console.log(userId + ' ' + eventId);
 	console.log("E I ="+ JSON.stringify(req.params));
 	User.findOne({
     _id: userId
@@ -94,10 +95,11 @@ exports.addEvent = function(req, res, next) {
     Event.findById(eventId, function(err, event){
       if (err) return next(err);
       if (!event) return res.json(404);
-      user.events.push({
+        user.events.push({
         _id: event._id,
         name: event.name
       });
+      
       user.save(function(err) {
         if (err) return validationError(res, err);
         res.send(200);
