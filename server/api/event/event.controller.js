@@ -15,13 +15,21 @@ exports.index = function(req, res) {
 
 // Get a single event
 exports.show = function(req, res) {
+	console.log("SHOW");
+	var gladGubbe;
+	console.log("id " + req.params.id);
 	Event.findById(req.params.id, function (err, event) {
 		if(err) { return handleError(res, err); }
 		if(!event) { return res.send(404); }
-	Utils.getWeather(event.location, function(data) {
-		var gladGubbe = parseWeather(data);
-	}, handleError);
-		return res.json(gladGubbe);
+		Utils.getWeather(event.location, function(data) {
+			parseWeather(data, function(datan) {
+				console.log("DATA"  + datan);
+				gladGubbe = datan;
+				console.log("GLAD GUBBE :) = " + gladGubbe);
+				var returnList = { 'event':event, 'weather':gladGubbe};
+				return res.json(200, JSON.stringify(returnList));
+			});
+		}, handleError);
 	});
 };
 
@@ -46,16 +54,16 @@ exports.create = function(req, res) {
 						location: [ nearestBusstop['@x'], nearestBusstop['@y'] ],
 						events: [{
 							_id: event._id,
-							name: event.name,
-							description: event.description,
-							date: event.date
+						name: event.name,
+						description: event.description,
+						date: event.date
 						}]
 					},function(err, busstop){
 
 					});
 				}
 			});
-			
+
 		});
 		return res.json(201, event);
 	});
@@ -86,21 +94,22 @@ exports.destroy = function(req, res) {
 		});
 	});
 };
-function parseWeather(data) {
-	var results = [];
+function parseWeather(data, success) {
+	var result = [];
 	var dagar = JSON.parse(data).timeseries;
 	for(var i=0; i<5;i++) {
 		if(dagar[i].pit>0.5) {
-			result[i] = 0;
+			result[i] = { 'element':dagar[i], 'rank':0};
 		} else if(dagar[i].pit>0.1) {
-			result[i] = 1;
+			result[i] = { 'element': dagar[i], 'rank':1} ;
 		} else if(dagar[i].tcc>4) {
-			results[i] = 2;
+			result[i] = { 'element': dagar[i], 'rank':2} ;
 		} else {
-			result[i] = 3;
+			result[i] = { 'element': dagar[i], 'rank':3} ;
 		}
 	}
-	return result;
+	console.log("res " + result);
+	success(result);
 }
 function handleError(res, err) {
 	return res.send(500, err);
