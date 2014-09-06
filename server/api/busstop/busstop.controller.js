@@ -58,6 +58,7 @@ exports.destroy = function(req, res) {
 };
 
 exports.nearest = function(req, res) {
+	console.log(req.params.currentLocation);
 	var position = JSON.parse(req.params.currentLocation);
 	Utils.nearestBusstop(position, function(busstops){
 		var id = busstops["@id"];

@@ -17,18 +17,21 @@ module.exports.nearestBusstop = function(position, success, error){
 			'&coordSys=WGS84'+
 			'&apiVersion=2.1'
 	};
-	//console.log("LONGITUDE: "+position);
 	var req = https.request(options, function(response){
 		response.on('data', function (chunk) {
 			str += chunk;
 		});
 		response.on('end', function () {
-			console.log("STRING: "+str);
-			var result = JSON.parse(str).stationsinzoneresult.location[0];
-			if (result) {
+			var parsed = [];
+			if(JSON.parse(str).stationsinzoneresult != undefined) {
+				parsed = JSON.parse(str).stationsinzoneresult.location;
+			}
+			var result = null;
+			if(parsed !== undefined && parsed.length > 0) {
+				result = parsed[0];
+			}
+			if (result != null) {
 				success(result);
-			}else{
-				error(404);
 			}
 		});
 	}).end();
