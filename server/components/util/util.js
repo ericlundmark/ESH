@@ -7,6 +7,7 @@ module.exports.nearestBusstop = function(position, success, error){
 	console.log(position.xCoord);
 	var radius = 500;
 	var str = '';
+
 	var options = {
 		method: 'GET',
 		host: 'api.trafiklab.se',
@@ -18,6 +19,7 @@ module.exports.nearestBusstop = function(position, success, error){
 			'&coordSys=WGS84' +
 			'&apiVersion=2.1'
 	};
+	//console.log("LONGITUDE: "+position);
 	var req = https.request(options, function(response){
 		response.on('data', function (chunk) {
 			str += chunk;
