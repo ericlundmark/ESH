@@ -4,21 +4,22 @@ var loc;
 
 angular.module('eshApp')
 .controller('EventCtrl', function ($scope, $http) {
-
 	$scope.busstop = {};
 	getCurrentLocation(function(loca) {
 		$http.get('/api/busstops/-1/'+JSON.stringify(loca))
-		.success(function(busstops) {
-			console.log(busstops.events);
-			$scope.busstop = busstops.events;
+		.success(function(busstop) {
+			console.log(busstop);
+			$scope.busstop = busstop;
+		}).error(function(){
+			console.log('err');
 		});
 	});
 
 	var timer = setInterval(function(){
 		getCurrentLocation(function(loca) {
 			$http.get('/api/busstops/-1/'+JSON.stringify(loca))
-			.success(function(busstops) {
-				console.log(busstops.events);
+			.success(function(busstop) {
+				console.log(busstop.events);
 				$scope.busstop = busstops.events;
 			});
 		});
@@ -31,7 +32,7 @@ function getCurrentLocation(sucess){
 		navigator.geolocation.getCurrentPosition(function(position){
 			loc = {
 				'xCoord':position.coords.longitude,
-			'yCoord':position.coords.latitude
+				'yCoord':position.coords.latitude
 			};
 			sucess(loc);
 		});

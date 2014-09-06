@@ -16,4 +16,4 @@ angular.module('eshApp')
 	$http.get('/api/busstops/').success(function(busstops) {
 		$scope.busstop = busstops[0];
 	});
-	});
+});
