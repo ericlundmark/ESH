@@ -6,7 +6,7 @@ Schema = mongoose.Schema;
 var BusstopSchema = new Schema({
 	_id: String,
 	name: String,
-	coordinate: Coordinate,
+	coordinate: [Number],
 	events: [{
 		_id: Schema.Types.ObjectId,
 		name: String,

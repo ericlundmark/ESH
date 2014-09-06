@@ -54,6 +54,10 @@ exports.destroy = function(req, res) {
   });
 };
 
+exports.currentLocation = function(req, res) {
+	console.log("hej");
+};
+
 function handleError(res, err) {
   return res.send(500, err);
 }
