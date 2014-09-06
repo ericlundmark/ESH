@@ -20,7 +20,7 @@ angular.module('eshApp')
 			$http.get('/api/busstops/-1/'+JSON.stringify(loca))
 			.success(function(busstop) {
 				console.log(busstop.events);
-				$scope.busstop = busstops.events;
+				$scope.busstop = busstop.events;
 			});
 		});
 	},10000);
