@@ -4,13 +4,13 @@ var mongoose = require('mongoose'),
 Schema = mongoose.Schema;
 
 var BusstopSchema = new Schema({
-	_id: String,
+	_id: Number,
 	name: String,
-	coordinate: [Number],
+	location: [ Number ],
 	events: [{
 		_id: Schema.Types.ObjectId,
 		name: String,
-		description: String,
+		description: String
 	}]
 });
 
