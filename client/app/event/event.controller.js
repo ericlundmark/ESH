@@ -6,6 +6,7 @@ angular.module('eshApp')
 .controller('EventCtrl', function ($scope, $http) {
 
 	$scope.busstop = {};
+	getCurrentLocation();
 
 var timer = setInterval(function(){
 	getCurrentLocation();
