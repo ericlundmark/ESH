@@ -8,6 +8,7 @@ angular.module('eshApp')
             latitude: 45,
             longitude: -73
         },
+        markers: {},
         events: {click: mapClicked},
         zoom: 8
     };
@@ -24,11 +25,15 @@ angular.module('eshApp')
 
     function mapClicked(maps, event, mEvent){
         console.log(mEvent);
-        var marker = new google.maps.Marker({
+        var marker = $scope.map.marker;
+        if (marker) {
+            marker.setMap(null);
+        };
+        
+        $scope.map.marker = new google.maps.Marker({
           position: mEvent[0].latLng,
           map: maps,
           title: 'Hello World!'
       });
-        console.log($scope.marker);
     }
 });
