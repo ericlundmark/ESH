@@ -2,9 +2,9 @@
 
 var _ = require('lodash');
 var Event = require('./event.model');
+
 var Busstop = require('../busstop/busstop.model');
 var Utils = require('../../components/util/util');
-
 // Get list of events
 exports.index = function(req, res) {
 	Event.find(function (err, events) {
@@ -18,7 +18,10 @@ exports.show = function(req, res) {
 	Event.findById(req.params.id, function (err, event) {
 		if(err) { return handleError(res, err); }
 		if(!event) { return res.send(404); }
-		return res.json(event);
+	Utils.getWeather(event.location, function(data) {
+		var gladGubbe = parseWeather(data);
+	}, handleError);
+		return res.json(gladGubbe);
 	});
 };
 
@@ -83,7 +86,22 @@ exports.destroy = function(req, res) {
 		});
 	});
 };
-
+function parseWeather(data) {
+	var results = [];
+	var dagar = JSON.parse(data).timeseries;
+	for(var i=0; i<5;i++) {
+		if(dagar[i].pit>0.5) {
+			result[i] = 0;
+		} else if(dagar[i].pit>0.1) {
+			result[i] = 1;
+		} else if(dagar[i].tcc>4) {
+			results[i] = 2;
+		} else {
+			result[i] = 3;
+		}
+	}
+	return result;
+}
 function handleError(res, err) {
 	return res.send(500, err);
 }

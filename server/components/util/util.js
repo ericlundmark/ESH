@@ -19,20 +19,50 @@ module.exports.nearestBusstop = function(position, success, error){
 			'&coordSys=WGS84' +
 			'&apiVersion=2.1'
 	};
-	//console.log("LONGITUDE: "+position);
 	var req = https.request(options, function(response){
 		response.on('data', function (chunk) {
 			str += chunk;
 		});
 		response.on('end', function () {
-			var parsed = JSON.parse(str);
-			console.log(parsed);
-			var result = parsed.stationsinzoneresult.location[0];
-			if (result) {
+			var parsed = [];
+			if(JSON.parse(str).stationsinzoneresult != undefined) {
+				parsed = JSON.parse(str).stationsinzoneresult.location;
+			}
+			var result = null;
+			if(parsed !== undefined && parsed.length > 0) {
+				result = parsed[0];
+			}
+			if (result != null) {
 				success(result);
-			}else{
-				error(404);
 			}
 		});
 	}).end();
 };
+module.exports.getWeather = function(position, success, error){
+	var radius = 500;
+	var str = '';
+	console.log("post " + position[0]);
+	var options = {
+		method: 'GET',
+		host:'opendata-download-metfcst.smhi.se',
+		path:'/api/category/pmp1.5g/version/1/geopoint' +
+			'/lat/'+position[0]+
+			'/lon/'+position[1]+
+			'/data.json'
+	};
+	http.request(options, function(response){
+		var str = ''
+		response.on('data', function (chunk) {
+			str += chunk;
+		});
+
+	response.on('end', function () {
+		var result = str;
+		if (result) {
+			success(result);
+		}else{
+			error(404);
+		}
+	});
+	}).end(); 
+}
