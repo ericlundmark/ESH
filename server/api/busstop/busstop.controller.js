@@ -63,17 +63,16 @@ exports.nearest = function(req, res) {
 	Utils.nearestBusstop(position, function(nearestBusstop){
 		var id = nearestBusstop["@id"];
 		Busstop.findById(parseInt(id), function(err, busstop) {
-			console.log(busstop);
 			if(err) { return handleError(res ,err); }
 			if(!busstop) {
 				Busstop.create({
 					_id: id,
-					name: nearestBusstop['name']
+					name: nearestBusstop['name'],
+					location: [ nearestBusstop['@x'], nearestBusstop['@y'] ]
 				}, function(busstop){
 					return res.json(200, busstop);
 				});
 			}
-	//		return id === id ? res.send(200) : res.json(200, busstop);
 			return res.json(200, busstop);
 		});
 	}, handleError);;
