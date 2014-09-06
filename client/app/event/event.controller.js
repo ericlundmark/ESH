@@ -10,19 +10,25 @@ angular.module('eshApp')
 
     $scope.busstop = {};
     $scope.currentLocation="NO DATA";
-    $http.get('/api/busstops/').success(function(busstops) {
-    	$scope.busstop = busstops[0];
-    	console.log($scope.busstop)
-    });
+
+    
 
    var timer = setInterval(function(){
     	$scope.getCurrentLocation();
-    },10000);
+    	$http.get('/api/busstops/-1/'+$scope.currentLocation)
+	    	.success(function(busstops) {
+	    		console.log("SVAR: "+busstops);
+		    	//$scope.busstop = busstops[0];
+		    	//console.log($scope.busstop)
+	   		 });
+	   
+    },4000);
 	
      $scope.getCurrentLocation=function(){
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position){
-          $scope.currentLocation={'lon':position.coords.longitude,'lat':position.coords.latitude};
+          $scope.currentLocation=JSON.stringify("{'lon':"+position.coords.longitude+",'lat':"+position.coords.latitude+"}");
+          console.log($scope.currentLocation);
         });
       } else {
           console.log("No location could be found");
