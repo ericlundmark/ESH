@@ -7,7 +7,7 @@ This is the event view.
 	<div class="col-sm-4"></div>
 	<div class="col-sm-4">
 		<div class="list-group">
-		<a class="list-group-item"  ng-click="eventClicked(event.eventId)" data-ng-repeat="event in events.event">{{event.name}} at {{event.place}}</a>
+		<a class="list-group-item"  href="#/event/show/{{event.eventId}}" data-ng-repeat="event in events.event">{{event.name}} at {{event.place}}</a>
 		</div>
 	</div>
 </div>
