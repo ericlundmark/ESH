@@ -25,16 +25,15 @@ angular.module('eshApp')
 		});
 	},10000);
 
-
 });
-function getCurrentLocation(sucess){
+function getCurrentLocation(success){
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(function(position){
 			loc = {
 				'xCoord':position.coords.longitude,
 				'yCoord':position.coords.latitude
 			};
-			sucess(loc);
+			success(loc);
 		});
 	} else {
 		console.log("No location could be found");

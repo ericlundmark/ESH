@@ -11,12 +11,12 @@ module.exports.nearestBusstop = function(position, success, error){
 		method: 'GET',
 		host: 'api.trafiklab.se',
 		path: '/samtrafiken/resrobot/StationsInZone.json'+
-			'?key=DgKtW2dvK9XZRnjrYeXhptwDJP6RDUNj'+
-			'&centerX=' + position.xCoord +
-			'&centerY=' + position.yCoord +
-			'&radius=' + radius +
-			'&coordSys=WGS84' +
-			'&apiVersion=2.1'
+		'?key=DgKtW2dvK9XZRnjrYeXhptwDJP6RDUNj'+
+		'&centerX=' + position.xCoord +
+		'&centerY=' + position.yCoord +
+		'&radius=' + radius +
+		'&coordSys=WGS84' +
+		'&apiVersion=2.1'
 	};
 	var req = https.request(options, function(response){
 		response.on('data', function (chunk) {
@@ -45,9 +45,9 @@ module.exports.getWeather = function(position, success, error){
 		method: 'GET',
 		host:'opendata-download-metfcst.smhi.se',
 		path:'/api/category/pmp1.5g/version/1/geopoint' +
-			'/lat/'+position[0]+
-			'/lon/'+position[1]+
-			'/data.json'
+		'/lat/'+position[0]+
+		'/lon/'+position[1]+
+		'/data.json'
 	};
 	http.request(options, function(response){
 		var str = ''
@@ -55,13 +55,13 @@ module.exports.getWeather = function(position, success, error){
 			str += chunk;
 		});
 
-	response.on('end', function () {
-		var result = str;
-		if (result) {
-			success(result);
-		}else{
-			error(404);
-		}
-	});
+		response.on('end', function () {
+			var result = str;
+			if (result) {
+				success(result);
+			}else{
+				error(404);
+			}
+		});
 	}).end(); 
 }
