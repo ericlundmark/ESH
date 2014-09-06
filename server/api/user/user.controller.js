@@ -1,6 +1,7 @@
 'use strict';
 
 var User = require('./user.model');
+var Event = require('../event/event.model');
 var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
@@ -13,7 +14,7 @@ var validationError = function(res, err) {
  * Get list of users
  * restriction: 'admin'
  */
-exports.index = function(req, res) {
+ exports.index = function(req, res) {
   User.find({}, '-salt -hashedPassword', function (err, users) {
     if(err) return res.send(500, err);
     res.json(200, users);
@@ -23,7 +24,7 @@ exports.index = function(req, res) {
 /**
  * Creates a new user
  */
-exports.create = function (req, res, next) {
+ exports.create = function (req, res, next) {
   var newUser = new User(req.body);
   newUser.provider = 'local';
   newUser.role = 'user';
@@ -37,7 +38,7 @@ exports.create = function (req, res, next) {
 /**
  * Get a single user
  */
-exports.show = function (req, res, next) {
+ exports.show = function (req, res, next) {
   var userId = req.params.id;
 
   User.findById(userId, function (err, user) {
@@ -51,7 +52,7 @@ exports.show = function (req, res, next) {
  * Deletes a user
  * restriction: 'admin'
  */
-exports.destroy = function(req, res) {
+ exports.destroy = function(req, res) {
   User.findByIdAndRemove(req.params.id, function(err, user) {
     if(err) return res.send(500, err);
     return res.send(204);
@@ -61,7 +62,7 @@ exports.destroy = function(req, res) {
 /**
  * Change a users password
  */
-exports.changePassword = function(req, res, next) {
+ exports.changePassword = function(req, res, next) {
   var userId = req.user._id;
   var oldPass = String(req.body.oldPassword);
   var newPass = String(req.body.newPassword);
@@ -79,23 +80,48 @@ exports.changePassword = function(req, res, next) {
   });
 };
 
+exports.addEvent = function(req, res, next) {
+  var userId = req.user._id;
+  var eventId = req.eventId;
+  User.findOne({
+    _id: userId
+  }, function(err, user) {
+    if (err) return next(err);
+    if (!user) return res.json(404);
+    Event.findById(eventId, function(err, event){
+      if (err) return next(err);
+      if (!event) return res.json(404);
+      user.events.push({
+        _id: event._id,
+        name: event.name
+      });
+      user.save(function(err) {
+        if (err) return validationError(res, err);
+        res.send(200);
+      });
+      res.send(200);
+    })
+
+  });
+};
+
 /**
  * Get my info
  */
-exports.me = function(req, res, next) {
+ exports.me = function(req, res, next) {
   var userId = req.user._id;
   User.findOne({
     _id: userId
   }, '-salt -hashedPassword', function(err, user) { // don't ever give out the password or salt
-    if (err) return next(err);
-    if (!user) return res.json(404);
-    res.json(user);
-  });
+  if (err) return next(err);
+  if (!user) return res.json(404);
+  res.json(user);
+});
 };
 
 /**
  * Authentication callback
  */
-exports.authCallback = function(req, res, next) {
+ exports.authCallback = function(req, res, next) {
   res.redirect('/');
 };
