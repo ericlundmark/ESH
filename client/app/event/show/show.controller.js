@@ -20,9 +20,9 @@ angular.module('eshApp')
     	
     }
     $scope.likeEvent = function(e){
-    	$http.put('/api/users/'+Auth.getCurrentUser + "/" + e._id ).success(function(event) {
-    		console.log(event);
-    	});; 
+    	$http.put('/api/users/'+Auth.getCurrentUser()._id + "/" + e._id ).success(function(event) {
+    	console.log(event);
+    	});
     }; 
   });
  
