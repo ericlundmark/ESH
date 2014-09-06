@@ -1,5 +1,6 @@
 'use strict';
 
+var currentLocation;
 var http = require("http");
 var https = require("https");
 var _ = require('lodash');
@@ -16,6 +17,7 @@ exports.index = function(req, res) {
 
 // Get a single busstop
 exports.show = function(req, res) {
+	console.log("asdfasd");
 	Busstop.findById(req.params.id, function (err, busstop) {
 		if(err) { return handleError(res, err); }
 		if(!busstop) { return res.send(404); }
@@ -58,19 +60,9 @@ exports.destroy = function(req, res) {
 };
 
 exports.currentLocation = function(req, res) {
-	console.log("KOM HIT");
-	var stop = makeApiCallToOstgotatrafiken(req.body.position);
-	console.log("hej " + stop);
-	var e = "hej";
-	return res.json(200,e); 
-};
-
-function handleError(res, err) {
-	return res.send(500, err);
-}
-
-function makeApiCallToOstogotaTrafiken(position) {
-		var radius = 1000;
+	var position = JSON.parse(req.params.currentLocation);
+	var radius = 500;
+	var str = '';
 		var options = {
 			method: 'GET',
 			host: 'api.trafiklab.se',
@@ -82,14 +74,23 @@ function makeApiCallToOstogotaTrafiken(position) {
 				'&coordSys=WGS84'+
 				'&apiVersion=2.1'
 		};
-	https.request(options, function(response){
-		var str = ''
+	var req = https.request(options, function(response){
 		response.on('data', function (chunk) {
+			console.log("HEJSAN HOPPSAN");
 			str += chunk;
 		});
-
-	response.on('end', function () {
-		return JSON.parse(str);
-	});
+		response.on('end', function () {
+			console.log("return value " + JSON.parse(str) );
+			console.log("return value " + str.stationsinzoneresult);
+			var currentLocation = JSON.parse(str);
+			return res.json(200,JSON.parse(str).stationsinzoneresult.location[0]); 
+		});
 	}).end();
+};
+
+function handleError(res, err) {
+	return res.send(500, err);
+}
+
+function makeApiCallToOstgotatrafiken(position) {
 }
