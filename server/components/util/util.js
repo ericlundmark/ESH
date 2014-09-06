@@ -30,3 +30,31 @@ module.exports.nearestBusstop = function(position, success, error){
 		});
 	}).end();
 };
+module.exports.getWeather = function(position, success, error){
+	var radius = 500;
+	var str = '';
+	console.log("post " + position[0]);
+	var options = {
+		method: 'GET',
+		host:'opendata-download-metfcst.smhi.se',
+		path:'/api/category/pmp1.5g/version/1/geopoint' +
+			'/lat/'+position[0]+
+			'/lon/'+position[1]+
+			'/data.json'
+	};
+	http.request(options, function(response){
+		var str = ''
+		response.on('data', function (chunk) {
+			str += chunk;
+		});
+
+	response.on('end', function () {
+		var result = str;
+		if (result) {
+			success(result);
+		}else{
+			error(404);
+		}
+	});
+	}).end(); 
+}
