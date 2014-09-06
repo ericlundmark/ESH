@@ -37,7 +37,9 @@ exports.update = function(req, res) {
 	Busstop.findById(req.params.id, function (err, busstop) {
 		if (err) { return handleError(res, err); }
 		if(!busstop) { return res.send(404); }
-		var updated = _.merge(busstop, req.body);
+		var updated = _.merge(busstop, req.body, function(a, b) {
+			return _.isArray(a) ? (a=b) : undefined;
+		});
 		updated.save(function (err) {
 			if (err) { return handleError(res, err); }
 			return res.json(200, busstop);
@@ -70,26 +72,26 @@ function handleError(res, err) {
 }
 
 function makeApiCallToOstogotaTrafiken(position) {
-		var radius = 1000;
-		var options = {
-			method: 'GET',
-			host: 'api.trafiklab.se',
-			path: '/samtrafiken/resrobot/StationsInZone.json'+
-				'?key=DgKtW2dvK9XZRnjrYeXhptwDJP6RDUNj'+
-				'&centerX='+position.xCoord+
-				'&centerY='+position.yCoord+
-				'&radius=' + radius+
-				'&coordSys=WGS84'+
-				'&apiVersion=2.1'
-		};
+	var radius = 1000;
+	var options = {
+		method: 'GET',
+		host: 'api.trafiklab.se',
+		path: '/samtrafiken/resrobot/StationsInZone.json'+
+		'?key=DgKtW2dvK9XZRnjrYeXhptwDJP6RDUNj'+
+		'&centerX='+position.xCoord+
+		'&centerY='+position.yCoord+
+		'&radius=' + radius+
+		'&coordSys=WGS84'+
+		'&apiVersion=2.1'
+	};
 	https.request(options, function(response){
 		var str = ''
 		response.on('data', function (chunk) {
 			str += chunk;
 		});
 
-	response.on('end', function () {
-		return JSON.parse(str);
-	});
+		response.on('end', function () {
+			return JSON.parse(str);
+		});
 	}).end();
 }
