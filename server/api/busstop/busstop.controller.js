@@ -69,13 +69,14 @@ exports.nearest = function(req, res) {
 					_id: id,
 					name: nearestBusstop['name'],
 					location: [ nearestBusstop['@x'], nearestBusstop['@y'] ]
-				}, function(busstop){
-					return res.json(200, busstop);
+				}, function(err, createdBusstop){
+					console.log(createdBusstop);
+					busstop=createdBusstop;
 				});
 			}
 			return res.json(200, busstop);
 		});
-	}, handleError);;
+	}, handleError);
 };
 
 function handleError(res, err) {
