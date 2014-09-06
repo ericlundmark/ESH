@@ -8,9 +8,9 @@ angular.module('eshApp')
   .controller('MainCtrl', function ($scope, $http) {
     $scope.awesomeThings = [];
 
-    $http.get('/api/busstops/123/' + JSON.stringify(pos)).success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
-      console.log($scope.awesomeThings);
+    $http.get('/api/busstops/123/' + JSON.stringify(pos)).success(function(awesomethings) {
+      $scope.awesomethings = awesomethings;
+      console.log($scope.awesomethings);
     });
 
     $scope.addThing = function() {

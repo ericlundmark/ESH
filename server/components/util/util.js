@@ -1,6 +1,8 @@
 'use strict';
-var https = require("https");
 
+var wfs = require('wfs');
+var https = require("https");
+var http = require('http');
 module.exports.nearestBusstop = function(position, success, error){
 	var radius = 500;
 	var str = '';
@@ -8,12 +10,12 @@ module.exports.nearestBusstop = function(position, success, error){
 		method: 'GET',
 		host: 'api.trafiklab.se',
 		path: '/samtrafiken/resrobot/StationsInZone.json'+
-		'?key=DgKtW2dvK9XZRnjrYeXhptwDJP6RDUNj'+
-		'&centerX='+position.xCoord+
-		'&centerY='+position.yCoord+
-		'&radius=' + radius+
-		'&coordSys=WGS84'+
-		'&apiVersion=2.1'
+			'?key=DgKtW2dvK9XZRnjrYeXhptwDJP6RDUNj'+
+			'&centerX='+position.xCoord+
+			'&centerY='+position.yCoord+
+			'&radius=' + radius+
+			'&coordSys=WGS84'+
+			'&apiVersion=2.1'
 	};
 	var req = https.request(options, function(response){
 		response.on('data', function (chunk) {
@@ -28,4 +30,4 @@ module.exports.nearestBusstop = function(position, success, error){
 			}
 		});
 	}).end();
-}
+};
