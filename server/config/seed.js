@@ -81,6 +81,13 @@
       events: []
     };
     addBusstop(busstop,test,onBusstopAdded);
+    var busstop = {
+      _id: 7456608,
+      name: 'Mjärdevi Center (Linköping kn)',
+      location: [15.560494, 58.394281],
+      events: []
+    };
+    addBusstop(busstop,test,onBusstopAdded);
   });
 }
 
