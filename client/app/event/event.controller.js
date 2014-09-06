@@ -9,7 +9,6 @@ angular.module('eshApp')
 	getCurrentLocation(function(loca) {
 		$http.get('/api/busstops/-1/'+JSON.stringify(loca))
 		.success(function(busstops) {
-			console.log(busstops.events);
 			$scope.busstop = busstops.events;
 		});
 	});
@@ -18,7 +17,6 @@ angular.module('eshApp')
 		getCurrentLocation(function(loca) {
 			$http.get('/api/busstops/-1/'+JSON.stringify(loca))
 			.success(function(busstops) {
-				console.log(busstops.events);
 				$scope.busstop = busstops.events;
 			});
 		});
