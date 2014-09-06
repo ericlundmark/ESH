@@ -1,3 +1,56 @@
-<div class="col-md-12">
-This is the create view.
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="row">
+	<div class="col-md-4"></div>
+	<form class="form-horizontal col-md-4" ng-model="eventForm">
+		<div class="col-md-4"></div>
+		<fieldset class="col-md-4">
+
+			<!-- Form Name -->
+			<legend>Lägg till event</legend>
+
+			<!-- Text input-->
+			<div class="control-group">
+			  <label class="control-label" for="eventTitle">Eventets namn</label>
+			  <div class="controls">
+			    <input id="eventTitle" ng-model="eventForm.eventTitle" name="eventTitle" placeholder="Namn" class="input-xlarge" type="text">
+			    <p class="help-block">Skriv namnet på eventet</p>
+			  </div>
+			</div>
+
+			<!-- Textarea -->
+			<div class="control-group">
+			  <label class="control-label" for="eventeventDescription">Beskrivning</label>
+			  <div class="controls">                     
+			    <textarea id="eventeventDescription" ng-model="eventForm.eventDescription" name="eventeventDescription" placeholder="Beskrivnig av eventet"></textarea>
+			  </div>
+			</div>
+
+			<!-- Multiple Radios -->
+			<div class="control-group">
+			  <label class="control-label" for="eventType">Typ av event</label>
+			  <div class="controls">
+			    <label class="radio" for="eventType-0">
+			      <input name="eventType" ng-model="eventForm.outdoorRadioButton" id="eventType-0" value="Utomhus-aktivitet" ng-click="activityTypeChoosen()" type="radio">
+			      Utomhus-aktivitet
+			    </label>
+			    <label class="radio" for="eventType-1">
+			      <input name="eventType" ng-model="eventForm.indoorRadioButton" id="eventType-1" value="Inomhus-aktivitet" ng-click="activityTypeChoosen()" type="radio">
+			      Inomhus-aktivitet
+			    </label>
+			  </div>
+			</div>
+
+			<!-- Button (Double) -->
+			<div class="control-group">
+			  <label class="control-label" for="addEventButton"></label>
+			  <div class="controls">
+			    <button id="addEventButton" name="addEventButton" ng-disabled="eventForm.eventTitle==''||eventForm.eventTitle==null||eventForm.eventDescription==null||eventForm.eventDescription==''||!activityChoosen" class="btn btn-success" ng-click="addEvent(eventForm)">Lägg till</button>
+			    <button id="cancelEventButton" name="cancelEventButton" class="btn btn-danger" ng-click="cancel()">Avbryt</button>
+			  </div>
+			</div>
+		</fieldset>
+		<div class="col-md-4"></div>
+	</form>
+	<div class="col-md-4"></div>
 </div>
