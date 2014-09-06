@@ -39,7 +39,8 @@ var validationError = function(res, err) {
  * Get a single user
  */
  exports.show = function (req, res, next) {
-  var userId = req.params.id;
+	console.log("kilili");
+	 var userId = req.params.id;
 
   User.findById(userId, function (err, user) {
     if (err) return next(err);
@@ -81,9 +82,11 @@ var validationError = function(res, err) {
 };
 
 exports.addEvent = function(req, res, next) {
-  var userId = req.user._id;
+	console.log("HEHEJ");
+	var userId = req.user._id;
   var eventId = req.eventId;
-  User.findOne({
+	console.log("E I ="+ JSON.stringify(req.params));
+	User.findOne({
     _id: userId
   }, function(err, user) {
     if (err) return next(err);

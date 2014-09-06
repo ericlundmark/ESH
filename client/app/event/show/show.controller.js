@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('eshApp')
-  .controller('ShowCtrl', function ($scope, $routeParams, $http) {
+  .controller('ShowCtrl', function ($scope, $routeParams, $http, Auth) {
     $scope.message = 'Hello';
 
     //eventId ifrån klickat event på event sidan
@@ -19,6 +19,10 @@ angular.module('eshApp')
     $scope.addToPersonalList=function(){
     	
     }
-    
+    $scope.likeEvent = function(e){
+    	$http.put('/api/users/'+Auth.getCurrentUser + "/" + e._id ).success(function(event) {
+    		console.log(event);
+    	});; 
+    }; 
   });
  
