@@ -1,6 +1,5 @@
 'use strict';
 
-var wfs = require('wfs');
 var https = require("https");
 var http = require('http');
 module.exports.nearestBusstop = function(position, success, error){
