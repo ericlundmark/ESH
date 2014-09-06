@@ -19,8 +19,8 @@ angular.module('eshApp')
 		getCurrentLocation(function(loca) {
 			$http.get('/api/busstops/-1/'+JSON.stringify(loca))
 			.success(function(busstop) {
-				console.log(busstop.events);
-				$scope.busstop = busstops.events;
+				console.log(busstop);
+				$scope.busstop = busstop;
 			});
 		});
 	},10000);
