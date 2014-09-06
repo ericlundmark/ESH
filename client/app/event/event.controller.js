@@ -1,31 +1,31 @@
 'use strict';
 
+var pos = {
+		'yCoord':'58.394127',
+		'xCoord':'15.561469'
+};
+
 angular.module('eshApp')
-  .controller('EventCtrl', function ($scope) {
-    $scope.message = 'Hello';
+  .controller('EventCtrl', function ($scope, $http) {
 
-    $scope.events = {
-    	event: [
-	    	{
-	    		"eventId": 1,
-	    		"name": "bad",
-	    		"place": "ekerö"
-	    	},
-	    	{
-	    		"eventId": 2,
-	    		"name": "strand",
-	    		"place": "söderköping"
-	    	},
-	    	{
-	    		"eventId": 3,
-	    		"name": "öl",
-	    		"place": "norrland"
-	    	}
-    	]
-    };
+    $scope.busstop = {};
+    $scope.currentLocation="NO DATA";
+    $http.get('/api/busstops/').success(function(busstops) {
+    	$scope.busstop = busstops[0];
+    	console.log($scope.busstop)
+    });
 
-    $scope.eventClicked = function(eventId){
-    	console.log("clicked event: " + eventId);
+   var timer = setInterval(function(){
+    	$scope.getCurrentLocation();
+    },10000);
+	
+     $scope.getCurrentLocation=function(){
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position){
+          $scope.currentLocation={'lon':position.coords.longitude,'lat':position.coords.latitude};
+        });
+      } else {
+          console.log("No location could be found");
+      }
     }
-
 });
