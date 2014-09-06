@@ -39,7 +39,9 @@ exports.update = function(req, res) {
 	Busstop.findById(req.params.id, function (err, busstop) {
 		if (err) { return handleError(res, err); }
 		if(!busstop) { return res.send(404); }
-		var updated = _.merge(busstop, req.body);
+		var updated = _.merge(busstop, req.body, function(a, b) {
+			return _.isArray(a) ? (a=b) : undefined;
+		});
 		updated.save(function (err) {
 			if (err) { return handleError(res, err); }
 			return res.json(200, busstop);
@@ -60,21 +62,22 @@ exports.destroy = function(req, res) {
 };
 
 exports.currentLocation = function(req, res) {
+
 	var position = JSON.parse(req.params.currentLocation);
 	var closestBusstop;
 	var radius = 500;
 	var str = '';
-		var options = {
-			method: 'GET',
-			host: 'api.trafiklab.se',
-			path: '/samtrafiken/resrobot/StationsInZone.json'+
-				'?key=DgKtW2dvK9XZRnjrYeXhptwDJP6RDUNj'+
-				'&centerX='+position.xCoord+
-				'&centerY='+position.yCoord+
-				'&radius=' + radius+
-				'&coordSys=WGS84'+
-				'&apiVersion=2.1'
-		};
+	var options = {
+		method: 'GET',
+		host: 'api.trafiklab.se',
+		path: '/samtrafiken/resrobot/StationsInZone.json'+
+		'?key=DgKtW2dvK9XZRnjrYeXhptwDJP6RDUNj'+
+		'&centerX='+position.xCoord+
+		'&centerY='+position.yCoord+
+		'&radius=' + radius+
+		'&coordSys=WGS84'+
+		'&apiVersion=2.1'
+	};
 	var req = https.request(options, function(response){
 		response.on('data', function (chunk) {
 			str += chunk;
