@@ -11,11 +11,11 @@ var EventSchema = new Schema({
 	},
 	created: { type: Date, default: Date.now },
 	description: String,
-	location: String,
+	location: [ Number ],
 	date: { type: Date, default: null },
-	coordinate: Coordinate,
+	coordinate: [ Number ],
 	busStop: {
-		_id: String,
+		_id: Number,
 		name: String
 	}
 });
