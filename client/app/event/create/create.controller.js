@@ -5,10 +5,9 @@ angular.module('eshApp')
     $scope.event = {};
     $scope.map = {
         center: {
-            latitude: 45,
-            longitude: -73
+            latitude: 58.410807,
+            longitude: 15.621373
         },
-        markers: {},
         events: {click: mapClicked},
         zoom: 8
     };
@@ -17,9 +16,12 @@ angular.module('eshApp')
     }
 
     $scope.submit=function(valid){
+        var marker = $scope.map.marker;
         if (valid) {
-            console.log($scope.event);
-            $http.post('/api/events/',  $scope.event);
+            console.log(marker);
+            var latLng = marker.position;
+            $scope.event.location = [latLng.B, latLng.k];
+            $http.post('/api/events/', $scope.event);
         };
     }
 

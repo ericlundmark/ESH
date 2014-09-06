@@ -2,7 +2,9 @@
 
 var https = require("https");
 var http = require('http');
+
 module.exports.nearestBusstop = function(position, success, error){
+	console.log(position.xCoord);
 	var radius = 500;
 	var str = '';
 	var options = {
@@ -10,10 +12,10 @@ module.exports.nearestBusstop = function(position, success, error){
 		host: 'api.trafiklab.se',
 		path: '/samtrafiken/resrobot/StationsInZone.json'+
 			'?key=DgKtW2dvK9XZRnjrYeXhptwDJP6RDUNj'+
-			'&centerX='+position.xCoord+
-			'&centerY='+position.yCoord+
-			'&radius=' + radius+
-			'&coordSys=WGS84'+
+			'&centerX=' + position.xCoord +
+			'&centerY=' + position.yCoord +
+			'&radius=' + radius +
+			'&coordSys=WGS84' +
 			'&apiVersion=2.1'
 	};
 	var req = https.request(options, function(response){
@@ -21,7 +23,9 @@ module.exports.nearestBusstop = function(position, success, error){
 			str += chunk;
 		});
 		response.on('end', function () {
-			var result = JSON.parse(str).stationsinzoneresult.location[0];
+			var parsed = JSON.parse(str);
+			console.log(parsed);
+			var result = parsed.stationsinzoneresult.location[0];
 			if (result) {
 				success(result);
 			}else{

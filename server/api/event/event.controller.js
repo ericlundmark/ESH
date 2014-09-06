@@ -2,13 +2,15 @@
 
 var _ = require('lodash');
 var Event = require('./event.model');
+var Busstop = require('../busstop/busstop.model');
+var Utils = require('../../components/util/util');
 
 // Get list of events
 exports.index = function(req, res) {
-Event.find(function (err, events) {
-	if(err) { return handleError(res, err); }
-	return res.json(200, events);
-});
+	Event.find(function (err, events) {
+		if(err) { return handleError(res, err); }
+		return res.json(200, events);
+	});
 };
 
 // Get a single event
@@ -24,6 +26,34 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
 	Event.create(req.body, function(err, event) {
 		if(err) { return handleError(res, err); }
+		Utils.nearestBusstop({xCoord:event.location[0], yCoord:event.location[1]}, function(nearestBusstop){
+			Busstop.findById(nearestBusstop['@id'], function(err, busstop){
+				if (busstop) {
+					busstop.events.push({
+						_id: event._id,
+						name: event.name,
+						description: event.description,
+						date: event.date
+					});
+					busstop.save();
+				}else{
+					Busstop.create({
+						_id: nearestBusstop['@id'],
+						name: nearestBusstop['name'],
+						location: [ nearestBusstop['@x'], nearestBusstop['@y'] ],
+						events: [{
+							_id: event._id,
+							name: event.name,
+							description: event.description,
+							date: event.date
+						}]
+					},function(err, busstop){
+
+					});
+				}
+			});
+			
+		});
 		return res.json(201, event);
 	});
 };

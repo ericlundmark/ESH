@@ -4,7 +4,7 @@
 		<div class="col-sm-12">
 			<form novalidate name="eventForm" class="form-horizontal" ng-submit="submit(eventForm.$valid)">
 				<legend>Lägg till event</legend>
-				<google-map center="map.center" events="map.events" zoom="map.zoom"></google-map>
+				<google-map center="map.center" draggable="true" events="map.events" zoom="map.zoom"></google-map>
 				<div class="form-group">
 					<label for="eventName">Eventets namn</label>
 					<input type="text" ng-model="event.name" class="form-control" id="eventName" placeholder="Namn" required>
