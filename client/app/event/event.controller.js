@@ -1,8 +1,19 @@
 'use strict';
 
+var pos = {
+		'yCoord':'58.394127',
+		'xCoord':'15.561469'
+};
+
 angular.module('eshApp')
-  .controller('EventCtrl', function ($scope) {
-    $scope.message = 'Hello';
+  .controller('EventCtrl', function ($scope, $http) {
+
+    $scope.busstop = {};
+
+    $http.get('/api/busstops/').success(function(busstops) {
+    	$scope.busstop = busstops[0];
+    	console.log($scope.busstop)
+    });
 
     $scope.events = {
     	event: [
@@ -24,8 +35,8 @@ angular.module('eshApp')
     	]
     };
 
-    $scope.eventClicked = function(eventId){
-    	console.log("clicked event: " + eventId);
+    $scope.onClick = function(string){
+    	console.log(string);
     }
 
 });

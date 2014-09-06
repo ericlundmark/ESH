@@ -65,10 +65,8 @@
         name: busstop.names
       }
     };
-    Event.find({}).remove(function(){
-      addEvent(glassbar, busstop);
-      addEvent(bio, busstop);
-    });
+    addEvent(glassbar, busstop);
+    addEvent(bio, busstop);
   };
   User.create(test, admin, function(err, test, admin) {
     console.log('finished populating users');
@@ -96,7 +94,8 @@ function addEvent(event, busstop){
     Busstop.findByIdAndUpdate(busstop._id, {$push: {events: {
       _id: event._id,
       name: event.name,
-      description: event.description
+      description: event.description,
+      date: event.date
     }}}, function(err, busstop){
       console.log('added event: ' + event.name + ' to busstop ' + busstop.name);
     });

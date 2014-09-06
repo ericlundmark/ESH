@@ -10,7 +10,8 @@ var BusstopSchema = new Schema({
 	events: [{
 		_id: Schema.Types.ObjectId,
 		name: String,
-		description: String
+		description: String,
+		date: Date
 	}]
 });
 

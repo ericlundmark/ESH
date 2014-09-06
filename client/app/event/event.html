@@ -7,7 +7,11 @@ This is the event view.
 	<div class="col-sm-4"></div>
 	<div class="col-sm-4">
 		<div class="list-group">
-		<a class="list-group-item"  href="#/event/show/{{event.eventId}}" data-ng-repeat="event in events.event">{{event.name}} at {{event.place}}</a>
-		</div>
+        	<a href="#/event/show/{{event._id}}" class="list-group-item" ng-repeat="event in busstop.events">
+        	<h4 class="list-group-item-heading">{{event.name}} <small>{{event.date}}</small></h4>
+        	<p class="list-group-item-text">{{event.description}}</p>
+        	<p class="list-group-item-text">{{event._id}}</p>
+        </a>
+      </div>
 	</div>
 </div>
