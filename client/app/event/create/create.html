@@ -30,7 +30,7 @@
 					<label class="control-label" for="addEventButton"></label>
 					<div class="controls">
 						<button name="cancelEventButton" class="btn btn-danger" ng-click="cancel()">Avbryt</button>
-						<button name="addEventButton" class="btn btn-primary">Lägg till</button>
+						<button name="addEventButton" ng-disabled="event.name==''||event.name==null||event.description==''||event.description==null" class="btn btn-primary">Lägg till</button>
 					</div>
 				</div>
 			</form>
