@@ -59,12 +59,20 @@ exports.destroy = function(req, res) {
 
 exports.nearest = function(req, res) {
 	var position = JSON.parse(req.params.currentLocation);
-	Utils.nearestBusstop(position, function(busstops){
-		var id = busstops["@id"];
-		Busstop.findById(id, function(err, busstop) {
+	console.log(position);
+	Utils.nearestBusstop(position, function(nearestBusstop){
+		var id = nearestBusstop["@id"];
+		Busstop.findById(parseInt(id), function(err, busstop) {
 			if(err) { return handleError(res ,err); }
-			if(!busstop) {return res.send(404); }
-	//		return id === id ? res.send(200) : res.json(200, busstop);
+			if(!busstop) {
+				Busstop.create({
+					_id: id,
+					name: nearestBusstop['name'],
+					location: [ nearestBusstop['@x'], nearestBusstop['@y'] ]
+				}, function(busstop){
+					return res.json(200, busstop);
+				});
+			}
 			return res.json(200, busstop);
 		});
 	}, handleError);;
