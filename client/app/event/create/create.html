@@ -1,56 +1,39 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12">
+			<form novalidate name="eventForm" class="form-horizontal" ng-submit="submit(eventForm.$valid)">
+				<legend>Lägg till event</legend>
+				<google-map center="map.center" events="map.events" zoom="map.zoom"></google-map>
+				<div class="form-group">
+					<label for="eventName">Eventets namn</label>
+					<input type="text" ng-model="event.name" class="form-control" id="eventName" placeholder="Namn" required>
+				</div>
 
-<div class="row">
-	<div class="col-md-4"></div>
-	<form class="form-horizontal col-md-4" ng-model="eventForm">
-		<div class="col-md-4"></div>
-		<fieldset class="col-md-4">
+				<div class="form-group">
+					<label for="textarea">Beskrivning av eventet</label>
+					<input type="text" ng-model="event.description" class="form-control" id="textarea" placeholder="Śkriv en beskrivning av eventet" required>
+				</div>
 
-			<!-- Form Name -->
-			<legend>Lägg till event</legend>
+				<div class="form-group">
+					<label for="type">Eventets namn</label>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" ng-model="event.outdoor" value="">
+							Utomhusaktivitet
+						</label>
+					</div>
+				</div>
 
-			<!-- Text input-->
-			<div class="control-group">
-			  <label class="control-label" for="eventTitle">Eventets namn</label>
-			  <div class="controls">
-			    <input id="eventTitle" ng-model="eventForm.eventTitle" name="eventTitle" placeholder="Namn" class="input-xlarge" type="text">
-			    <p class="help-block">Skriv namnet på eventet</p>
-			  </div>
-			</div>
-
-			<!-- Textarea -->
-			<div class="control-group">
-			  <label class="control-label" for="eventeventDescription">Beskrivning</label>
-			  <div class="controls">                     
-			    <textarea id="eventeventDescription" ng-model="eventForm.eventDescription" name="eventeventDescription" placeholder="Beskrivnig av eventet"></textarea>
-			  </div>
-			</div>
-
-			<!-- Multiple Radios -->
-			<div class="control-group">
-			  <label class="control-label" for="eventType">Typ av event</label>
-			  <div class="controls">
-			    <label class="radio" for="eventType-0">
-			      <input name="eventType" ng-model="eventForm.outdoorRadioButton" id="eventType-0" value="Utomhus-aktivitet" ng-click="activityTypeChoosen()" type="radio">
-			      Utomhus-aktivitet
-			    </label>
-			    <label class="radio" for="eventType-1">
-			      <input name="eventType" ng-model="eventForm.indoorRadioButton" id="eventType-1" value="Inomhus-aktivitet" ng-click="activityTypeChoosen()" type="radio">
-			      Inomhus-aktivitet
-			    </label>
-			  </div>
-			</div>
-
-			<!-- Button (Double) -->
-			<div class="control-group">
-			  <label class="control-label" for="addEventButton"></label>
-			  <div class="controls">
-			    <button id="addEventButton" name="addEventButton" ng-disabled="eventForm.eventTitle==''||eventForm.eventTitle==null||eventForm.eventDescription==null||eventForm.eventDescription==''||!activityChoosen" class="btn btn-success" ng-click="addEvent(eventForm)">Lägg till</button>
-			    <button id="cancelEventButton" name="cancelEventButton" class="btn btn-danger" ng-click="cancel()">Avbryt</button>
-			  </div>
-			</div>
-		</fieldset>
-		<div class="col-md-4"></div>
-	</form>
-	<div class="col-md-4"></div>
+				<!-- Button (Double) -->
+				<div class="control-group">
+					<label class="control-label" for="addEventButton"></label>
+					<div class="controls">
+						<button name="cancelEventButton" class="btn btn-danger" ng-click="cancel()">Avbryt</button>
+						<button name="addEventButton" class="btn btn-primary">Lägg till</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
