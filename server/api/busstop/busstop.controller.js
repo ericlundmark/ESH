@@ -61,13 +61,12 @@ exports.currentLocation = function(req, res) {
 	var position = JSON.parse(req.params.currentLocation);
 	Utils.nearestBusstop(position, function(busstops){
 		var id = busstops["@id"];
-		id = 7410957; // REMOVE                                    asdfasdfasdfasdf
 		Busstop.findById(id, function(err, busstop) {
 			if(err) { return handleError(res ,err); }
 			if(!busstop) {return res.send(404); }
 			return id === id ? res.send(200) : res.json(200, busstop);
 		});
-	}, handleError);
+	}, handleError);;
 };
 
 function handleError(res, err) {
