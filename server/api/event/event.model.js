@@ -13,6 +13,7 @@ var EventSchema = new Schema({
 	description: String,
 	location: [ Number ],
 	date: { type: Date, default: null },
+	coordinate: [Number],
 	busStop: {
 		_id: Number,
 		name: String
