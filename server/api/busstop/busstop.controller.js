@@ -61,6 +61,7 @@ exports.destroy = function(req, res) {
 
 exports.currentLocation = function(req, res) {
 	var position = JSON.parse(req.params.currentLocation);
+	var closestBusstop;
 	var radius = 500;
 	var str = '';
 		var options = {
@@ -76,14 +77,17 @@ exports.currentLocation = function(req, res) {
 		};
 	var req = https.request(options, function(response){
 		response.on('data', function (chunk) {
-			console.log("HEJSAN HOPPSAN");
 			str += chunk;
 		});
 		response.on('end', function () {
-			console.log("return value " + JSON.parse(str) );
-			console.log("return value " + str.stationsinzoneresult);
-			var currentLocation = JSON.parse(str);
-			return res.json(200,JSON.parse(str).stationsinzoneresult.location[0]); 
+			currentLocation = JSON.parse(str).stationsinzoneresult.location[0];
+			closestBusstop = {
+				'_id':currentLocation["@id"],
+				"name": currentLocation.name,
+				"location": [currentLocation["@x"], currentLocation["@y"]]
+			};
+			console.log(closestBusstop);
+			return res.json(200,closestBusstop); 
 		});
 	}).end();
 };
@@ -92,5 +96,3 @@ function handleError(res, err) {
 	return res.send(500, err);
 }
 
-function makeApiCallToOstgotatrafiken(position) {
-}
