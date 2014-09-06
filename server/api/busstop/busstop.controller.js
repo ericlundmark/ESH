@@ -85,12 +85,15 @@ exports.currentLocation = function(req, res) {
 		response.on('end', function () {
 			currentLocation = JSON.parse(str).stationsinzoneresult.location[0];
 			closestBusstop = {
-				'_id':currentLocation["@id"],
+				'id':currentLocation["@id"],
 				"name": currentLocation.name,
 				"location": [currentLocation["@x"], currentLocation["@y"]]
 			};
-			console.log(closestBusstop);
-			return res.json(200,closestBusstop); 
+			Busstop.findById(7410957, function(err, busstop) {
+				if(err) { return handleError(res ,err); }
+				if(!busstop) {return res.send(404); }
+				return res.json(200,busstop.events); 
+			});
 		});
 	}).end();
 };
