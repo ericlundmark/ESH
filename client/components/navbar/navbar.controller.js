@@ -3,7 +3,7 @@
 angular.module('eshApp')
   .controller('NavbarCtrl', function ($scope, $http, $location, Auth) {
     $scope.menu = [{
-      'title': 'Home',
+      'title': 'Hem',
       'link': '/'
     }];
     $scope.busStopCollection;
