@@ -39,15 +39,15 @@ var validationError = function(res, err) {
  * Get a single user
  */
  exports.show = function (req, res, next) {
-	console.log("kilili");
-	 var userId = req.params.id;
+   console.log("kilili");
+   var userId = req.params.id;
 
-  User.findById(userId, function (err, user) {
+   User.findById(userId, function (err, user) {
     if (err) return next(err);
     if (!user) return res.send(404);
     res.json(user.profile);
   });
-};
+ };
 
 /**
  * Deletes a user
@@ -85,9 +85,7 @@ exports.addEvent = function(req, res, next) {
 	console.log("HEHEJ");
 	var userId = req.params.id;
   var eventId = req.params.eventId;
-  console.log(userId + ' ' + eventId);
-	console.log("E I ="+ JSON.stringify(req.params));
-	User.findOne({
+  User.findOne({
     _id: userId
   }, function(err, user) {
     if (err) return next(err);
@@ -95,10 +93,21 @@ exports.addEvent = function(req, res, next) {
     Event.findById(eventId, function(err, event){
       if (err) return next(err);
       if (!event) return res.json(404);
+      if (user.events!= undefined && user.events.length==0) {
         user.events.push({
-        _id: event._id,
-        name: event.name
-      });
+          _id: event._id,
+          name: event.name
+        });
+      }else{
+        var result = _.findWhere(user.events, {_id: event._id});
+        if (result) {
+          var index = user.events.indexOf({
+            _id: event._id,
+            name: event.name
+          });
+          user.events.splice(index, 1);
+        }
+      }
       
       user.save(function(err) {
         if (err) return validationError(res, err);
