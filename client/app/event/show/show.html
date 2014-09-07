@@ -5,8 +5,8 @@
 		<div class="col-xs-12">
 			<div class="page-header">
 				<div class="row">
-					<h1 class="col-xs-3"><i class="fa fa-bullseye"></i> {{event.name}}</h1>
-					<h1 class="col-xs-1"><i class="fa fa-bus"></i><h2 class="col-xs-7">NÄRMSTA BUSSHÅLLPLATS:<p> {{routeParams.busStopName}}</p></h2></h1>
+					<h1 class="col-xs-4"><i class="fa fa-bullseye"></i> {{event.name}}</h1>
+					<h1 class="col-xs-1"><i class="fa fa-bus"></i><h2 class="col-xs-6">NÄRMSTA BUSSHÅLLPLATS:<p> {{routeParams.busStopName}}</p></h2></h1>
 					<h1 class="col-xs-1"><i class="pull-right" ng-click="toggleFavorite(event); $event.stopPropagation();" ng-class="{true: 'fa fa-heart', false: 'fa fa-heart-o'}[isFavorite(event._id)]"></i></h1>
 				</div>
 			</div>
