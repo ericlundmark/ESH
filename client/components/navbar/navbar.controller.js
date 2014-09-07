@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('eshApp')
-  .controller('NavbarCtrl', function ($scope, $location, Auth) {
+  .controller('NavbarCtrl', function ($scope, $http, $location, Auth) {
     $scope.menu = [{
       'title': 'Home',
       'link': '/'
     }];
-
+    $scope.busStopCollection;
     $scope.isCollapsed = true;
     $scope.isLoggedIn = Auth.isLoggedIn;
     $scope.isAdmin = Auth.isAdmin;
@@ -19,4 +19,8 @@ angular.module('eshApp')
     $scope.isActive = function(route) {
       return route === $location.path();
     };
-  });
+
+    $scope.performSearch=function(searchString){
+      $location.path('/search/'+searchString);
+    }
+});
