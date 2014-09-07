@@ -3,7 +3,7 @@
 angular.module('eshApp')
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/event', {
+      .when('/', {
         templateUrl: 'app/event/event.html',
         controller: 'EventCtrl'
       });
