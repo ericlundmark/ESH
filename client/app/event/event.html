@@ -5,7 +5,7 @@
       <div class="page-header">
         <h1><i class="fa fa-bus"></i> {{busstop.name}}</h1>
       </div>
-      <div class="alert alert-info" ng-if="isEmpty(busstop.events)">
+      <div class="alert alert-info" ng-if="!hasEvents(busstop)">
         <strong>Jäkla oflyt,</strong>
         det finns inga events i närheten av denna busstation!
       </div>
@@ -14,6 +14,7 @@
          <h4 class="list-group-item-heading">{{event.name}} <small>{{event.date}}</small></h4>
          <p class="list-group-item-text">{{event.description}}</p>
          <p class="list-group-item-text">{{event._id}}</p>
+         <i class="fa fa-heart-o pull-right" ng-if="isFavorite(event._id)"></i>
        </a>
      </div>
    </div>
