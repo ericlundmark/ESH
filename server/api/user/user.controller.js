@@ -83,7 +83,6 @@ var validationError = function(res, err) {
 };
 
 exports.addEvent = function(req, res, next) {
-	console.log("HEHEJ");
 	var userId = req.params.id;
   var eventId = req.params.eventId;
   User.findOne({
@@ -107,12 +106,18 @@ exports.addEvent = function(req, res, next) {
             name: event.name
           });
           user.events.splice(index, 1);
-        }
+        } else {
+        user.events.push({
+          _id: event._id,
+          name: event.name
+        });
+				}
       }
       
       user.save(function(err) {
         if (err) return validationError(res, err);
-        res.send(200);
+      	console.log(user.events);
+      	res.send(200);
       });
       res.send(200);
     })
@@ -130,7 +135,8 @@ exports.addEvent = function(req, res, next) {
   }, '-salt -hashedPassword', function(err, user) { // don't ever give out the password or salt
   if (err) return next(err);
   if (!user) return res.json(404);
-  res.json(user);
+	console.log(user);
+	res.json(user);
 });
 };
 
