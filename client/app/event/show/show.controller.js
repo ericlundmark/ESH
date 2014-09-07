@@ -23,9 +23,17 @@ angular.module('eshApp')
         $scope.regn = JSON.parse(JSON.parse(event)).weather;
 				var center = new google.maps.LatLng($scope.event.location[0], $scope.event.location[1]);
 				$scope.map = {center: center, zoom:11};
-				$scope.googleMap.getGMap().setCenter(center);
-    });
-		
+			var map = $scope.googleMap.getGMap();	
+			map.setCenter(center);
+			console.log($scope.event);
+			map.marker = new google.maps.Marker({
+					position: center,
+					map: map,
+					title: "HEJ"
+				});
+			map.panTo(center);
+		});
+
     $scope.addToPersonalList=function(){
     	
     }
