@@ -8,5 +8,5 @@ module.exports = {
     uri: 'mongodb://localhost/esh-dev'
   },
 
-  seedDB: true
+  seedDB: false
 };
