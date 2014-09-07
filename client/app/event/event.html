@@ -3,7 +3,8 @@
   <div class="row">
     <div class="col-xs-12">
       <div class="page-header">
-        <h1><i class="fa fa-bus"></i> {{busstop.name}}</h1>
+        <h1 ng-show="hasBusstop(busstop)"><i class="fa fa-bus"></i> {{busstop.name}}</h1>
+        <h1 ng-hide="hasBusstop(busstop)"><i class="fa fa-bus"></i> Söker...</h1>
       </div>
       <div class="alert alert-info" ng-show="!hasEvents(busstop)">
         <strong>Jäkla oflyt,</strong>
