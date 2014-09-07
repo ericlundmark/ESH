@@ -9,6 +9,7 @@ angular.module('eshApp')
     	searchString: $routeParams.searchString
     }
     $scope.getAllBusStops=function(){
+    	console.log("NU");
         $http.get('/api/busstops/')
         .success(function(busstop) {
           $scope.filterRelevantBusStops(busstop);
