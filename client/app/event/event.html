@@ -17,7 +17,7 @@
              <p class="list-group-item-text">{{event.description}}</p>
            </div>
            <div class="col-xs-1">
-             <h1><i class="pull-right" ng-class="{true: 'fa fa-heart', false: 'fa fa-heart-o'}[isFavorite(event._id)]"></i></h1>
+             <h1><i class="pull-right" ng-click="toggleFavorite(event); $event.stopPropagation();" ng-class="{true: 'fa fa-heart', false: 'fa fa-heart-o'}[isFavorite(event._id)]"></i></h1>
            </div>
          </div>
        </a>
