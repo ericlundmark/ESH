@@ -21,6 +21,7 @@ exports.show = function(req, res) {
 	Event.findById(req.params.id, function (err, event) {
 		if(err) { return handleError(res, err); }
 		if(!event) { return res.send(404); }
+		console.log("DENNA KAN VARA KONSTIG " + event.location);
 		Utils.getWeather(event.location, function(data) {
 			parseWeather(data, function(datan) {
 				console.log("DATA"  + datan);
@@ -29,7 +30,7 @@ exports.show = function(req, res) {
 				var returnList = { 'event':event, 'weather':gladGubbe};
 				return res.json(200, JSON.stringify(returnList));
 			});
-		}, handleError);
+		}, handleErrorWeather);
 	});
 };
 
@@ -96,6 +97,10 @@ exports.destroy = function(req, res) {
 };
 function parseWeather(data, success) {
 	var result = [];
+console.log(data);
+if(data.charAt(0) === '<') {
+	return null;
+}
 	var dagar = JSON.parse(data).timeseries;
 	for(var i=0; i<5;i++) {
 		if(dagar[i].pit>0.5) {
@@ -112,5 +117,8 @@ function parseWeather(data, success) {
 	success(result);
 }
 function handleError(res, err) {
+	return res.send(500, err);
+}
+function handleErrorWeather(res, err) {
 	return res.send(500, err);
 }

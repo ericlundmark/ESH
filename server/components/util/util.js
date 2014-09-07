@@ -57,7 +57,12 @@ module.exports.getWeather = function(position, success, error){
 
 		response.on('end', function () {
 			var result = str;
+			console.log(JSON.stringify(result));
 			if (result) {
+				if(JSON.stringify(result).charAt(3) == '<') {
+					console.log("BLÄ");
+					error(404);
+				}
 				success(result);
 			}else{
 				error(404);
