@@ -5,20 +5,38 @@
 		<div class="col-xs-12">
 
 			<div class="page-header">
-	        	<h1><i class="fa fa-bullseye"></i> {{event.name}}</h1>
-	      	</div>
+				<div class="row">
+					<h1 class="col-xs-11"><i class="fa fa-bullseye"></i> {{event.name}}</h1>
+					<h1 class="col-xs-1"><i class="pull-right" ng-click="toggleFavorite(event); $event.stopPropagation();" ng-class="{true: 'fa fa-heart', false: 'fa fa-heart-o'}[isFavorite(event._id)]"></i></h1>
+				</div>
+			</div>
 			<p>Description: {{event.description}}</p> 
 		</div>
 	</div>
 	<google-map events="map.events" center="map.center" draggable="true" zoom="map.zoom" control="googleMap"></google-map>
-
+	<br>
 	<div class="row">
 		<div class="col-xs-12">
-			<div id="weather" ng-repeat="sol in regn">
-				{{getDay($index)}}
-				<i ng-show="isSun(sol.rank)" class="fa fa-sun-o"></i>
-				<i ng-show="!isSun(sol.rank)" class="fa fa-cloud"></i>
-			</div>
+			<div class="panel panel-default">
+				<!-- Default panel contents -->
+				<div class="panel-heading">Väder</div>
+
+				<!-- Table -->
+				<table class="table">
+					<thead>
+						<tr>
+							<th ng-repeat="sol in regn">{{getDay($index)}}</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td ng-repeat="sol in regn">
+								<i ng-class="{true: 'fa fa-sun-o', false: 'fa fa-cloud'}[isSun(sol.rank)]" ng-show="!" class="fa fa-cloud"></i>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div> 
 		</br>
 		<button class="btn btn-lg btn-success" ng-click="likeEvent(event)" type="button">
 			Like
