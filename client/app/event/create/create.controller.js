@@ -11,7 +11,6 @@ angular.module('eshApp')
         events: {click: mapClicked},
         zoom: 9
     };
-		console.log($scope.map);
 		$scope.cancel=function(){
     	$location.path('/event');
     }
@@ -22,12 +21,13 @@ angular.module('eshApp')
             console.log(marker);
             var latLng = marker.position;
             $scope.event.location = [latLng.k, latLng.B];
-            $http.post('/api/events/', $scope.event);
+            $http.post('/api/events/', $scope.event).success(function(data, status) {	
+        		$location.path('/event/show/'+data._id);
+            });
         };
     }
 
     function mapClicked(maps, event, mEvent){
-        console.log(mEvent);
         var marker = $scope.map.marker;
         if (marker) {
             marker.setMap(null);

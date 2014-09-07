@@ -36,6 +36,7 @@ exports.show = function(req, res) {
 
 // Creates a new event in the DB.
 exports.create = function(req, res) {
+	var returnEvent;
 	Event.create(req.body, function(err, event) {
 		if(err) { return handleError(res, err); }
 		console.log("LATITUDE"+event.location[0]);
@@ -68,6 +69,8 @@ exports.create = function(req, res) {
 			});
 
 		});
+		returnEvent = event;
+	console.log("RETURNERAS AV POST" + event);
 		return res.json(201, event);
 	});
 };
