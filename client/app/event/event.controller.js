@@ -7,11 +7,6 @@ angular.module('eshApp')
 	$scope.busstop = {};
 	$scope.count=0;
 	$scope.hasEvents=function(busstop){
-<<<<<<< HEAD
-		
-		console.log("busstop.events: " + busstop.events);
-=======
->>>>>>> 713ce08d209d8cde0b423e051a1172f5b8815c75
 
 		if (busstop.events in window) {
 			return true;
