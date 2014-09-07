@@ -3,14 +3,14 @@
 <div class="container">
 	<div class="row">
 		<div class="col-xs-12">
-
 			<div class="page-header">
 				<div class="row">
 					<h1 class="col-xs-11"><i class="fa fa-bullseye"></i> {{event.name}}</h1>
 					<h1 class="col-xs-1"><i class="pull-right" ng-click="toggleFavorite(event); $event.stopPropagation();" ng-class="{true: 'fa fa-heart', false: 'fa fa-heart-o'}[isFavorite(event._id)]"></i></h1>
 				</div>
 			</div>
-			<p>Description: {{event.description}}</p> 
+			<h2>Vad handlar det här eventet om?</h2>
+			<p class="lead">{{event.description}}</p> 
 		</div>
 	</div>
 	<google-map events="map.events" center="map.center" draggable="true" zoom="map.zoom" control="googleMap"></google-map>
