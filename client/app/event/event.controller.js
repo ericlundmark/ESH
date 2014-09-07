@@ -6,7 +6,6 @@ angular.module('eshApp')
 .controller('EventCtrl', function ($scope, $http, Auth) {
 	$scope.busstop = {};
 	$scope.hasEvents=function(busstop){
-
 		
 		console.log("busstop.events: " + busstop.events);
 
