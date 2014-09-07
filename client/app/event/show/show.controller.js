@@ -44,7 +44,21 @@ angular.module('eshApp')
     };
 
     $scope.isSun = function(regn) {
-    	return regn >=3;
-    }
-});
 
+			return regn >=3;
+		}
+
+    var weekDays = ["Söndag", "Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag"];
+
+    $scope.getDay = function(index){
+        var i = index;
+        if (i == 0) {
+            return "Idag"
+        }else if (i == 1) {
+            return "Imorgon "
+        }else {
+            return weekDays[i];
+        };
+        
+    }
+  });
