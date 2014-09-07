@@ -99,10 +99,6 @@ exports.destroy = function(req, res) {
 };
 function parseWeather(data, success) {
 	var result = [];
-	console.log(data);
-	if(data.charAt(0) === '<') {
-		return null;
-	}
 	var dagar = JSON.parse(data).timeseries;
 	for(var i=0; i<5;i++) {
 		if(dagar[i].pit>0.5) {
@@ -115,7 +111,6 @@ function parseWeather(data, success) {
 			result[i] = { 'element': dagar[i], 'rank':3} ;
 		}
 	}
-	console.log("res " + result);
 	success(result);
 }
 function handleError(res, err) {
