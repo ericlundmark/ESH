@@ -35,6 +35,7 @@ exports.show = function(req, res) {
 
 // Creates a new event in the DB.
 exports.create = function(req, res) {
+	var returnEvent;
 	Event.create(req.body, function(err, event) {
 		if(err) { return handleError(res, err); }
 		Utils.nearestBusstop({xCoord:event.location[1], yCoord:event.location[0]}, function(nearestBusstop){
@@ -65,6 +66,8 @@ exports.create = function(req, res) {
 			});
 
 		});
+		returnEvent = event;
+	console.log("RETURNERAS AV POST" + event);
 		return res.json(201, event);
 	});
 };
@@ -96,10 +99,6 @@ exports.destroy = function(req, res) {
 };
 function parseWeather(data, success) {
 	var result = [];
-	console.log(data);
-	if(data.charAt(0) === '<') {
-		return null;
-	}
 	var dagar = JSON.parse(data).timeseries;
 	for(var i=0; i<5;i++) {
 		if(dagar[i].pit>0.5) {
@@ -112,7 +111,6 @@ function parseWeather(data, success) {
 			result[i] = { 'element': dagar[i], 'rank':3} ;
 		}
 	}
-	console.log("res " + result);
 	success(result);
 }
 function handleError(res, err) {
