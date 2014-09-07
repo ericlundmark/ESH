@@ -37,7 +37,8 @@ angular.module('eshApp')
     	var events = Auth.getCurrentUser().events;
     	if (events != undefined && events.length==0) {return false};
     	var event = _.findWhere(events, {_id: eventId});
-    	return event != undefined;
+   		console.log(event);
+   		return event != undefined;
     }
     $scope.toggleFavorite = function(event){
     	var user = Auth.getCurrentUser();

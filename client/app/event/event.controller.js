@@ -16,64 +16,52 @@ angular.module('eshApp')
 	}
 	$scope.toggleFavorite = function(event){
 		var user = Auth.getCurrentUser();
-		if (user != undefined && user.events!= undefined && user.events.length==0 ) {
-				for(var i=0; i<user.events.length;i++) {
-					for(var j=0; j<user.events.length;j++) {
-						if(user.events[j] !== user.events[i]) {
-							user.events.push({
-								_id: event._id,
-								name: event.name
-							});
-						}
-					}
-				}
-		}else{
-			var result = _.findWhere(user.events, {_id: event._id});
-			if (result) {
-				var index = user.events.indexOf({
-					_id: event._id,
-					name: event.name
-				});
-				user.events.splice(index, 1);
-			} else {
-				for(var i=0; i<user.events.length;i++) {
-					for(var j=0; j<user.events.length;j++) {
-						if(user.events[j] !== user.events[i]) {
-							user.events.push({
-								_id: event._id,
-								name: event.name
-							});
-						}
-					}
-				}
-			}
-		}
-		$http.put('/api/users/'+user._id + "/" + event._id ).success(function(event) {
-			console.log(event);
+      if (user != undefined && user.events!= undefined && user.events.length==0) {
+		user.events.push({
+			_id: event._id,
+			name: event.name
 		});
+	}else{
+		var result = _.findWhere(user.events, {_id: event._id});
+		if (result) {
+			var index = user.events.indexOf({
+				_id: event._id,
+				name: event.name
+			});
+			user.events.splice(index, 1);
+		} else {
+			user.events.push({
+				_id: event._id,
+				name: event.name
+			});
+		}
 	}
+	$http.put('/api/users/'+user._id + "/" + event._id ).success(function(event) {
+		console.log(event);
+	});
+}
+getCurrentLocation(function(loca) {
+	$http.get('/api/busstops/-1/'+JSON.stringify(loca))
+	.success(function(busstop) {
+		console.log(busstop.name);
+		$scope.busstop = busstop;
+	}).error(function(){
+		console.log('err');
+	});
+});
+
+$scope.$on('$routeChangeStart', function(next, current) {
+	clearInterval(timer);
+});
+var timer = setInterval(function(){
 	getCurrentLocation(function(loca) {
 		$http.get('/api/busstops/-1/'+JSON.stringify(loca))
 		.success(function(busstop) {
 			console.log(busstop.name);
 			$scope.busstop = busstop;
-		}).error(function(){
-			console.log('err');
 		});
 	});
-
-	$scope.$on('$routeChangeStart', function(next, current) {
-		clearInterval(timer);
-	});
-	var timer = setInterval(function(){
-		getCurrentLocation(function(loca) {
-			$http.get('/api/busstops/-1/'+JSON.stringify(loca))
-			.success(function(busstop) {
-				console.log(busstop.name);
-				$scope.busstop = busstop;
-			});
-		});
-	},10000);
+},10000);
 });
 function getCurrentLocation(success){
 	if (navigator.geolocation) {

@@ -67,7 +67,7 @@ exports.create = function(req, res) {
 
 		});
 		returnEvent = event;
-	console.log("RETURNERAS AV POST" + event);
+		console.log("RETURNERAS AV POST" + event);
 		return res.json(201, event);
 	});
 };
