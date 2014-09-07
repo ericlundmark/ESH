@@ -15,6 +15,10 @@ angular.module('eshApp')
 		});
 	});
 
+	$scope.$on('$routeChangeStart', function(next, current) {
+		console.log("hej");
+		clearInterval(timer);
+	});
 	var timer = setInterval(function(){
 		getCurrentLocation(function(loca) {
 			$http.get('/api/busstops/-1/'+JSON.stringify(loca))
