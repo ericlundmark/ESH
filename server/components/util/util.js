@@ -40,15 +40,16 @@ module.exports.nearestBusstop = function(position, success, error){
 module.exports.getWeather = function(position, success, error){
 	var radius = 500;
 	var str = '';
-	console.log("GET WEATHER " + position[0]);
+	console.log("GET WEATHER lat=" +  position[0] + " long=" + position[1]);
 	var options = {
 		method: 'GET',
 		host:'opendata-download-metfcst.smhi.se',
 		path:'/api/category/pmp1.5g/version/1/geopoint' +
-		'/lat/'+position[0]+
-		'/lon/'+position[1]+
+		'/lat/'+position[0].toFixed(3)+
+		'/lon/'+position[1].toFixed(3)+
 		'/data.json'
 	};
+	
 	http.request(options, function(response){
 		var str = ''
 		response.on('data', function (chunk) {
@@ -57,10 +58,8 @@ module.exports.getWeather = function(position, success, error){
 
 		response.on('end', function () {
 			var result = str;
-			console.log(JSON.stringify(result));
 			if (result) {
 				if(JSON.stringify(result).charAt(3) == '<') {
-					console.log("BLÄ");
 					error(404);
 				}
 				success(result);

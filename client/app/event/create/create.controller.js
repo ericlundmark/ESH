@@ -21,7 +21,7 @@ angular.module('eshApp')
         if (valid) {
             console.log(marker);
             var latLng = marker.position;
-            $scope.event.location = [latLng.B, latLng.k];
+            $scope.event.location = [latLng.k, latLng.B];
             $http.post('/api/events/', $scope.event);
         };
     }
