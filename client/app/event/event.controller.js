@@ -6,7 +6,20 @@ angular.module('eshApp')
 .controller('EventCtrl', function ($scope, $http, Auth) {
 	$scope.busstop = {};
 	$scope.hasEvents=function(busstop){
+
+		
+		console.log("busstop.events: " + busstop.events);
+
+		if (busstop.events in window) {
+			return true;
+		};
+
 		return busstop && busstop.events && busstop.events.length != 0;
+	};
+	$scope.hasBusstop=function(busstop){
+		console.log("hej");
+		console.log("has busstop?: " + (typeof busstop.name != 'undefined'));
+		return (typeof busstop.name != 'undefined');
 	};
 	$scope.isFavorite = function(eventId){
 		var events = Auth.getCurrentUser().events;
