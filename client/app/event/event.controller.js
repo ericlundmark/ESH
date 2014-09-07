@@ -3,15 +3,22 @@
 var loc; 
 
 angular.module('eshApp')
-.controller('EventCtrl', function ($scope, $http) {
+.controller('EventCtrl', function ($scope, $http, Auth) {
 	$scope.busstop = {};
-	$scope.isEmpty=function(array){
-		return array.length == 0;
+	$scope.hasEvents=function(busstop){
+		return busstop && busstop.events && busstop.events.length != 0;
 	};
+	$scope.isFavorite = function(eventId){
+		console.log(Auth.getCurrentUser());
+		var events = Auth.getCurrentUser().events;
+		if (events.length==0) {return false};
+		var event = _.findWhere(events, {_id: eventId});
+		return event != undefined;
+	}
 	getCurrentLocation(function(loca) {
 		$http.get('/api/busstops/-1/'+JSON.stringify(loca))
 		.success(function(busstop) {
-			console.log(busstop);
+			console.log(busstop.name);
 			$scope.busstop = busstop;
 		}).error(function(){
 			console.log('err');
@@ -25,7 +32,7 @@ angular.module('eshApp')
 		getCurrentLocation(function(loca) {
 			$http.get('/api/busstops/-1/'+JSON.stringify(loca))
 			.success(function(busstop) {
-				console.log(busstop);
+				console.log(busstop.name);
 				$scope.busstop = busstop;
 			});
 		});
