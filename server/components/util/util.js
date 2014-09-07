@@ -40,7 +40,7 @@ module.exports.nearestBusstop = function(position, success, error){
 module.exports.getWeather = function(position, success, error){
 	var radius = 500;
 	var str = '';
-	console.log("GET WEATHER " + position[0]);
+	console.log("GET WEATHER lat=" +  position[0] + " long=" + position[1]);
 	var options = {
 		method: 'GET',
 		host:'opendata-download-metfcst.smhi.se',
@@ -57,7 +57,6 @@ module.exports.getWeather = function(position, success, error){
 
 		response.on('end', function () {
 			var result = str;
-			console.log(JSON.stringify(result));
 			if (result) {
 				if(JSON.stringify(result).charAt(3) == '<') {
 					console.log("BLÄ");

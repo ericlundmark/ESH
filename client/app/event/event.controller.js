@@ -11,13 +11,13 @@ angular.module('eshApp')
 	$scope.isFavorite = function(eventId){
 		console.log(Auth.getCurrentUser());
 		var events = Auth.getCurrentUser().events;
-		if (events.length==0) {return false};
+		if (events != undefined && events.length==0) {return false};
 		var event = _.findWhere(events, {_id: eventId});
 		return event != undefined;
 	}
 	$scope.toggleFavorite = function(event){
 		var user = Auth.getCurrentUser();
-		if (user.events.length==0) {
+		if (user != undefined && user.events!= undefined && user.events.length==0) {
 			user.events.push({
 				_id: event._id,
 				name: event.name

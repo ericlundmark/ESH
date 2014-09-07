@@ -6,6 +6,9 @@ var Event = require('./event.model');
 var Busstop = require('../busstop/busstop.model');
 var Utils = require('../../components/util/util');
 // Get list of events
+
+var errorMessage;
+
 exports.index = function(req, res) {
 	Event.find(function (err, events) {
 		if(err) { return handleError(res, err); }
@@ -38,7 +41,8 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
 	Event.create(req.body, function(err, event) {
 		if(err) { return handleError(res, err); }
-		Utils.nearestBusstop({xCoord:event.location[0], yCoord:event.location[1]}, function(nearestBusstop){
+		console.log("LATITUDE"+event.location[0]);
+		Utils.nearestBusstop({xCoord:event.location[1], yCoord:event.location[0]}, function(nearestBusstop){
 			Busstop.findById(nearestBusstop['@id'], function(err, busstop){
 				if (busstop) {
 					busstop.events.push({
@@ -49,6 +53,7 @@ exports.create = function(req, res) {
 					});
 					busstop.save();
 				}else{
+					console.log("SPARAS " + nearestBusstop['@x']);
 					Busstop.create({
 						_id: nearestBusstop['@id'],
 						name: nearestBusstop['name'],
@@ -97,7 +102,6 @@ exports.destroy = function(req, res) {
 };
 function parseWeather(data, success) {
 	var result = [];
-console.log(data);
 if(data.charAt(0) === '<') {
 	return null;
 }
@@ -119,6 +123,6 @@ if(data.charAt(0) === '<') {
 function handleError(res, err) {
 	return res.send(500, err);
 }
-function handleErrorWeather(res, err) {
-	return res.send(500, err);
+function handleErrorWeather(err) {
+	errorMessage = "could not get weather";
 }
