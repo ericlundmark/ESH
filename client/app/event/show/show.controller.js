@@ -6,7 +6,8 @@ angular.module('eshApp')
 
     //eventId ifrån klickat event på event sidan
     $scope.routeParams = {
-    	eventId: $routeParams.eventId
+    	eventId: $routeParams.eventId,
+        busStopName:$routeParams.busStopName
     }
 
     $scope.event = {};

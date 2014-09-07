@@ -5,12 +5,12 @@
       <div class="page-header">
         <h1><i class="fa fa-bus"></i> {{busstop.name}}</h1>
       </div>
-      <div class="alert alert-info" ng-if="!hasEvents(busstop)">
+      <div class="alert alert-info" ng-show="!hasEvents(busstop)">
         <strong>Jäkla oflyt,</strong>
         det finns inga events i närheten av denna busstation!
       </div>
       <div class="list-group">
-       <a href="#/event/show/{{event._id}}" class="list-group-item" ng-repeat="event in busstop.events">
+       <a href="#/event/show/{{event._id}}/{{busstop.name}}" class="list-group-item" ng-repeat="event in busstop.events">
          <div class="row">
            <div class="col-xs-11">
              <h4 class="list-group-item-heading">{{event.name}} <small>{{event.date}}</small></h4>

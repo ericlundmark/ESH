@@ -4,6 +4,7 @@
     <div class="row">
        <div class="col-sm-4"></div>
        <div class="col-sm-4">
+       		<h3>Välj en busshållplats för att se event:</h3>
           <div class="list-group">
              <h3 class="list-group-item-heading" ng-repeat="objects in result" ng-click="showBusStop(objects)"><a class="list-group-item">{{objects.name}}</a></h3>
              
@@ -22,7 +23,13 @@
 	</div>
     <div class="row">
     	
-    	<div class="col-sm-4"></div>
+    	<div class="col-sm-4">
+    		<div class="col-sm-2 col-md-4"></div>
+
+    		<div class="col-sm-10 col-md-8">
+    			<h3>Välj ett event:</h3>
+    		</div>
+    	</div>
         <div class="col-sm-4">
           <div class="list-group">
              <h3 class="list-group-item">{{busstop.name}}</h3>
