@@ -5,6 +5,9 @@ var loc;
 angular.module('eshApp')
 .controller('EventCtrl', function ($scope, $http) {
 	$scope.busstop = {};
+	$scope.isEmpty=function(array){
+		return array.length == 0;
+	};
 	getCurrentLocation(function(loca) {
 		$http.get('/api/busstops/-1/'+JSON.stringify(loca))
 		.success(function(busstop) {
