@@ -1,13 +1,14 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container">
+		<div class="col-md-12">
 
-<div class="col-md-12">
-This is the user view.
-
+		<div class="page-header">
+        	<h1><i class="fa fa-heart"></i> Here is a list of your liked events</h1>
+      	</div>
 	    <div class="list-group">
-			<h3 class="list-group-item">This is the event view.</h3>
         	<a href="#/event/show/{{event._id}}" class="list-group-item" ng-repeat="event in user.events">
-        	<h4 class="list-group-item-heading">{{event.name}} <small>{{event.date}}</small></h4>
-        	<p class="list-group-item-text">{{event.description}}</p>
-        </a>
-      </div>
+        	<h4 class="list-group-item-heading">{{event.name}}</h4>
+        	</a>
+      	</div>
+    </div>
 </div>
