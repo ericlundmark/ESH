@@ -9,9 +9,9 @@ angular.module('eshApp')
             longitude: 15.621373
         },
         events: {click: mapClicked},
-        zoom: 8
+        zoom: 9
     };
-    $scope.cancel=function(){
+		$scope.cancel=function(){
     	$location.path('/event');
     }
 
@@ -20,13 +20,14 @@ angular.module('eshApp')
         if (valid) {
             console.log(marker);
             var latLng = marker.position;
-            $scope.event.location = [latLng.B, latLng.k];
-            $http.post('/api/events/', $scope.event);
+            $scope.event.location = [latLng.k, latLng.B];
+            $http.post('/api/events/', $scope.event).success(function(data, status) {	
+        		$location.path('/event/show/'+data._id);
+            });
         };
     }
 
     function mapClicked(maps, event, mEvent){
-        console.log(mEvent);
         var marker = $scope.map.marker;
         if (marker) {
             marker.setMap(null);

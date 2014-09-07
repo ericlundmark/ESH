@@ -3,12 +3,42 @@
 var loc; 
 
 angular.module('eshApp')
-.controller('EventCtrl', function ($scope, $http) {
+.controller('EventCtrl', function ($scope, $http, Auth) {
 	$scope.busstop = {};
+	$scope.hasEvents=function(busstop){
+		return busstop && busstop.events && busstop.events.length != 0;
+	};
+	$scope.isFavorite = function(eventId){
+		var events = Auth.getCurrentUser().events;
+		if (events != undefined && events.length==0) {return false};
+		var event = _.findWhere(events, {_id: eventId});
+		return event != undefined;
+	}
+	$scope.toggleFavorite = function(event){
+		var user = Auth.getCurrentUser();
+		if (user != undefined && user.events!= undefined && user.events.length==0) {
+			user.events.push({
+				_id: event._id,
+				name: event.name
+			});
+		}else{
+			var result = _.findWhere(user.events, {_id: event._id});
+			if (result) {
+				var index = user.events.indexOf({
+					_id: event._id,
+					name: event.name
+				});
+				user.events.splice(index, 1);
+			}
+		}
+		$http.put('/api/users/'+user._id + "/" + event._id ).success(function(event) {
+			console.log(event);
+		});
+	}
 	getCurrentLocation(function(loca) {
 		$http.get('/api/busstops/-1/'+JSON.stringify(loca))
 		.success(function(busstop) {
-			console.log(busstop);
+			console.log(busstop.name);
 			$scope.busstop = busstop;
 		}).error(function(){
 			console.log('err');
@@ -22,7 +52,7 @@ angular.module('eshApp')
 		getCurrentLocation(function(loca) {
 			$http.get('/api/busstops/-1/'+JSON.stringify(loca))
 			.success(function(busstop) {
-				console.log(busstop);
+				console.log(busstop.name);
 				$scope.busstop = busstop;
 			});
 		});

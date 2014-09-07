@@ -6,6 +6,9 @@ var Event = require('./event.model');
 var Busstop = require('../busstop/busstop.model');
 var Utils = require('../../components/util/util');
 // Get list of events
+
+var errorMessage;
+
 exports.index = function(req, res) {
 	Event.find(function (err, events) {
 		if(err) { return handleError(res, err); }
@@ -15,7 +18,6 @@ exports.index = function(req, res) {
 
 // Get a single event
 exports.show = function(req, res) {
-	console.log("SHOW");
 	var gladGubbe;
 	console.log("id " + req.params.id);
 	Event.findById(req.params.id, function (err, event) {
@@ -23,21 +25,20 @@ exports.show = function(req, res) {
 		if(!event) { return res.send(404); }
 		Utils.getWeather(event.location, function(data) {
 			parseWeather(data, function(datan) {
-				console.log("DATA"  + datan);
 				gladGubbe = datan;
-				console.log("GLAD GUBBE :) = " + gladGubbe);
 				var returnList = { 'event':event, 'weather':gladGubbe};
-				return res.json(200, JSON.stringify(returnList));
+				return res.json(200, returnList);
 			});
-		}, handleError);
+		}, handleErrorWeather);
 	});
 };
 
 // Creates a new event in the DB.
 exports.create = function(req, res) {
+	var returnEvent;
 	Event.create(req.body, function(err, event) {
 		if(err) { return handleError(res, err); }
-		Utils.nearestBusstop({xCoord:event.location[0], yCoord:event.location[1]}, function(nearestBusstop){
+		Utils.nearestBusstop({xCoord:event.location[1], yCoord:event.location[0]}, function(nearestBusstop){
 			Busstop.findById(nearestBusstop['@id'], function(err, busstop){
 				if (busstop) {
 					busstop.events.push({
@@ -54,9 +55,9 @@ exports.create = function(req, res) {
 						location: [ nearestBusstop['@x'], nearestBusstop['@y'] ],
 						events: [{
 							_id: event._id,
-						name: event.name,
-						description: event.description,
-						date: event.date
+							name: event.name,
+							description: event.description,
+							date: event.date
 						}]
 					},function(err, busstop){
 
@@ -65,6 +66,8 @@ exports.create = function(req, res) {
 			});
 
 		});
+		returnEvent = event;
+	console.log("RETURNERAS AV POST" + event);
 		return res.json(201, event);
 	});
 };
@@ -108,9 +111,11 @@ function parseWeather(data, success) {
 			result[i] = { 'element': dagar[i], 'rank':3} ;
 		}
 	}
-	console.log("res " + result);
 	success(result);
 }
 function handleError(res, err) {
 	return res.send(500, err);
+}
+function handleErrorWeather(err) {
+	errorMessage = "could not get weather";
 }
