@@ -1,7 +1,7 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <div class="container">
-<div class="row">
-    <div class="col-md-12">
+  <div class="row">
+    <div class="col-xs-12">
       <div class="page-header">
         <h1><i class="fa fa-bus"></i> {{busstop.name}}</h1>
       </div>
@@ -11,12 +11,17 @@
       </div>
       <div class="list-group">
        <a href="#/event/show/{{event._id}}" class="list-group-item" ng-repeat="event in busstop.events">
-         <h4 class="list-group-item-heading">{{event.name}} <small>{{event.date}}</small></h4>
-         <p class="list-group-item-text">{{event.description}}</p>
-         <p class="list-group-item-text">{{event._id}}</p>
-         <i class="fa fa-heart-o pull-right" ng-if="isFavorite(event._id)"></i>
+         <div class="row">
+           <div class="col-xs-11">
+             <h4 class="list-group-item-heading">{{event.name}} <small>{{event.date}}</small></h4>
+             <p class="list-group-item-text">{{event.description}}</p>
+           </div>
+           <div class="col-xs-1">
+             <h1><i class="pull-right" ng-class="{true: 'fa fa-heart', false: 'fa fa-heart-o'}[isFavorite(event._id)]"></i></h1>
+           </div>
+         </div>
        </a>
      </div>
    </div>
  </div>
- </div>
+</div>
