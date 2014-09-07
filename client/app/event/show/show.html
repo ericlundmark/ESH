@@ -9,23 +9,20 @@
 	      	</div>
 			<p>Description: {{event.description}}</p> 
 		</div>
-		<div class="col-md-4"></div>
 	</div>
 	<google-map events="map.events" center="map.center" draggable="true" zoom="map.zoom" control="googleMap"></google-map>
 
 	<div class="row">
-		<div class="col-md-4"></div>
-		<div class="col-md-4">
+		<div class="col-xs-12">
 			<div id="weather" ng-repeat="sol in regn">
 				{{getDay($index)}}
 				<i ng-show="isSun(sol.rank)" class="fa fa-sun-o"></i>
 				<i ng-show="!isSun(sol.rank)" class="fa fa-cloud"></i>
 			</div>
-			</br>
-			<button class="btn btn-lg btn-success" ng-click="likeEvent(event)" type="button">
-				Like
-			</button>
-		</div>
-		<div class="col-md-4"></div>
+		</br>
+		<button class="btn btn-lg btn-success" ng-click="likeEvent(event)" type="button">
+			Like
+		</button>
 	</div>
+</div>
 </div>

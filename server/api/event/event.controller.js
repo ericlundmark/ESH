@@ -6,6 +6,9 @@ var Event = require('./event.model');
 var Busstop = require('../busstop/busstop.model');
 var Utils = require('../../components/util/util');
 // Get list of events
+
+var errorMessage;
+
 exports.index = function(req, res) {
 	Event.find(function (err, events) {
 		if(err) { return handleError(res, err); }
@@ -15,20 +18,17 @@ exports.index = function(req, res) {
 
 // Get a single event
 exports.show = function(req, res) {
-	console.log("SHOW");
 	var gladGubbe;
 	console.log("id " + req.params.id);
 	Event.findById(req.params.id, function (err, event) {
 		if(err) { return handleError(res, err); }
 		if(!event) { return res.send(404); }
-		console.log("DENNA KAN VARA KONSTIG " + event.location);
 		Utils.getWeather(event.location, function(data) {
 			parseWeather(data, function(datan) {
-				console.log("DATA"  + datan);
 				gladGubbe = datan;
-				console.log("GLAD GUBBE :) = " + gladGubbe);
+				console.log("RETURN LIST " +event );
 				var returnList = { 'event':event, 'weather':gladGubbe};
-				return res.json(200, JSON.stringify(returnList));
+				return res.json(200, returnList);
 			});
 		}, handleErrorWeather);
 	});
@@ -38,7 +38,8 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
 	Event.create(req.body, function(err, event) {
 		if(err) { return handleError(res, err); }
-		Utils.nearestBusstop({xCoord:event.location[0], yCoord:event.location[1]}, function(nearestBusstop){
+		console.log("LATITUDE"+event.location[0]);
+		Utils.nearestBusstop({xCoord:event.location[1], yCoord:event.location[0]}, function(nearestBusstop){
 			Busstop.findById(nearestBusstop['@id'], function(err, busstop){
 				if (busstop) {
 					busstop.events.push({
@@ -49,15 +50,16 @@ exports.create = function(req, res) {
 					});
 					busstop.save();
 				}else{
+					console.log("SPARAS " + nearestBusstop['@x']);
 					Busstop.create({
 						_id: nearestBusstop['@id'],
 						name: nearestBusstop['name'],
 						location: [ nearestBusstop['@x'], nearestBusstop['@y'] ],
 						events: [{
 							_id: event._id,
-						name: event.name,
-						description: event.description,
-						date: event.date
+							name: event.name,
+							description: event.description,
+							date: event.date
 						}]
 					},function(err, busstop){
 
@@ -97,10 +99,10 @@ exports.destroy = function(req, res) {
 };
 function parseWeather(data, success) {
 	var result = [];
-console.log(data);
-if(data.charAt(0) === '<') {
-	return null;
-}
+	console.log(data);
+	if(data.charAt(0) === '<') {
+		return null;
+	}
 	var dagar = JSON.parse(data).timeseries;
 	for(var i=0; i<5;i++) {
 		if(dagar[i].pit>0.5) {
@@ -119,6 +121,6 @@ if(data.charAt(0) === '<') {
 function handleError(res, err) {
 	return res.send(500, err);
 }
-function handleErrorWeather(res, err) {
-	return res.send(500, err);
+function handleErrorWeather(err) {
+	errorMessage = "could not get weather";
 }
