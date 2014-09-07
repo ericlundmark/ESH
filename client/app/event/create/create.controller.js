@@ -9,9 +9,10 @@ angular.module('eshApp')
             longitude: 15.621373
         },
         events: {click: mapClicked},
-        zoom: 8
+        zoom: 9
     };
-    $scope.cancel=function(){
+		console.log($scope.map);
+		$scope.cancel=function(){
     	$location.path('/event');
     }
 
