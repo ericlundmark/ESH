@@ -44,6 +44,18 @@ angular.module('eshApp', [
     };
   })
 
+ /* //service style, probably the simplest one
+  .service('relevantBusStops', function() {
+      this.get = function() {
+      $http.get('/api/busstops/')
+        .success(function(busstop) {
+          console.log(busstop);
+          return busstop;
+        }).error(function(){
+          console.log('err');
+        });
+  });
+*/
   .run(function ($rootScope, $location, Auth) {
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$routeChangeStart', function (event, next) {

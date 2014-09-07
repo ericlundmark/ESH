@@ -27,7 +27,6 @@ angular.module('eshApp')
 			});
 		});
 	},10000);
-
 });
 function getCurrentLocation(success){
 	if (navigator.geolocation) {
@@ -41,4 +40,5 @@ function getCurrentLocation(success){
 	} else {
 		console.log("No location could be found");
 	}
-}
+} 
+
