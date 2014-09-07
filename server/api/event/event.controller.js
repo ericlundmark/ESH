@@ -15,20 +15,18 @@ exports.index = function(req, res) {
 
 // Get a single event
 exports.show = function(req, res) {
-	console.log("SHOW");
 	var gladGubbe;
 	console.log("id " + req.params.id);
 	Event.findById(req.params.id, function (err, event) {
 		if(err) { return handleError(res, err); }
 		if(!event) { return res.send(404); }
-		console.log("DENNA KAN VARA KONSTIG " + event.location);
 		Utils.getWeather(event.location, function(data) {
 			parseWeather(data, function(datan) {
 				console.log("DATA"  + datan);
 				gladGubbe = datan;
 				console.log("GLAD GUBBE :) = " + gladGubbe);
 				var returnList = { 'event':event, 'weather':gladGubbe};
-				return res.json(200, JSON.stringify(returnList));
+				return res.json(200, returnList);
 			});
 		}, handleErrorWeather);
 	});
@@ -55,9 +53,9 @@ exports.create = function(req, res) {
 						location: [ nearestBusstop['@x'], nearestBusstop['@y'] ],
 						events: [{
 							_id: event._id,
-						name: event.name,
-						description: event.description,
-						date: event.date
+							name: event.name,
+							description: event.description,
+							date: event.date
 						}]
 					},function(err, busstop){
 
@@ -97,10 +95,10 @@ exports.destroy = function(req, res) {
 };
 function parseWeather(data, success) {
 	var result = [];
-console.log(data);
-if(data.charAt(0) === '<') {
-	return null;
-}
+	console.log(data);
+	if(data.charAt(0) === '<') {
+		return null;
+	}
 	var dagar = JSON.parse(data).timeseries;
 	for(var i=0; i<5;i++) {
 		if(dagar[i].pit>0.5) {
