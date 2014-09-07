@@ -20,7 +20,6 @@ angular.module('eshApp')
     };
     console.log($scope.routeParams.eventId);
     $http.get('/api/events/' + $scope.routeParams.eventId).success(function(event) {
-
     	$scope.event = event.event;
     	$scope.regn = event.weather;
     	var center = new google.maps.LatLng($scope.event.location[0], $scope.event.location[1]);

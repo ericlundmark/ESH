@@ -26,7 +26,6 @@ exports.show = function(req, res) {
 		Utils.getWeather(event.location, function(data) {
 			parseWeather(data, function(datan) {
 				gladGubbe = datan;
-				console.log("RETURN LIST " +event );
 				var returnList = { 'event':event, 'weather':gladGubbe};
 				return res.json(200, returnList);
 			});
@@ -38,7 +37,6 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
 	Event.create(req.body, function(err, event) {
 		if(err) { return handleError(res, err); }
-		console.log("LATITUDE"+event.location[0]);
 		Utils.nearestBusstop({xCoord:event.location[1], yCoord:event.location[0]}, function(nearestBusstop){
 			Busstop.findById(nearestBusstop['@id'], function(err, busstop){
 				if (busstop) {
@@ -50,7 +48,6 @@ exports.create = function(req, res) {
 					});
 					busstop.save();
 				}else{
-					console.log("SPARAS " + nearestBusstop['@x']);
 					Busstop.create({
 						_id: nearestBusstop['@id'],
 						name: nearestBusstop['name'],
