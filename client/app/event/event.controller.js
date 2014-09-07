@@ -31,9 +31,8 @@ angular.module('eshApp')
 				user.events.splice(index, 1);
 			}
 		}
-		$http.put('/api/users/' + user._id, user).success(function(user){
-			console.log('success');
-			console.log(user);
+		$http.put('/api/users/'+user._id + "/" + event._id ).success(function(event) {
+			console.log(event);
 		});
 	}
 	getCurrentLocation(function(loca) {

@@ -33,10 +33,6 @@ angular.module('eshApp')
     	});
     	map.panTo(center);
     });
-
-    $scope.addToPersonalList=function(){
-    	
-    }
     $scope.likeEvent = function(e){
     	$http.put('/api/users/'+Auth.getCurrentUser()._id + "/" + e._id ).success(function(event) {
     		console.log(event);
