@@ -18,8 +18,11 @@ angular.module('eshApp')
 			},
 			zoom:11
 		};
+    console.log($scope.routeParams.eventId);
     $http.get('/api/events/' + $scope.routeParams.eventId).success(function(event) {
-    		$scope.event = JSON.parse(JSON.parse(event)).event;
+		console.log(event);
+		console.log(JSON.stringify(event));
+			$scope.event = JSON.parse(JSON.parse(event)).event;
         $scope.regn = JSON.parse(JSON.parse(event)).weather;
 				var center = new google.maps.LatLng($scope.event.location[0], $scope.event.location[1]);
 				$scope.map = {center: center, zoom:11};
@@ -31,6 +34,8 @@ angular.module('eshApp')
 					map: map,
 					title: "HEJ"
 				});
+		console.log(event);
+		console.log(JSON.stringify(event));
 			map.panTo(center);
 		});
 

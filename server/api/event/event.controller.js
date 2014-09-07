@@ -27,9 +27,8 @@ exports.show = function(req, res) {
 		console.log("DENNA KAN VARA KONSTIG " + event.location);
 		Utils.getWeather(event.location, function(data) {
 			parseWeather(data, function(datan) {
-				console.log("DATA"  + datan);
 				gladGubbe = datan;
-				console.log("GLAD GUBBE :) = " + gladGubbe);
+					console.log("RETURN LIST " +event );
 				var returnList = { 'event':event, 'weather':gladGubbe};
 				return res.json(200, JSON.stringify(returnList));
 			});
@@ -102,7 +101,7 @@ exports.destroy = function(req, res) {
 };
 function parseWeather(data, success) {
 	var result = [];
-if(data.charAt(0) === '<') {
+if(JSON.stringify(data).charAt(3) === '<') {
 	return null;
 }
 	var dagar = JSON.parse(data).timeseries;

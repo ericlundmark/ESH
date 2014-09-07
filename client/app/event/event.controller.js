@@ -9,7 +9,6 @@ angular.module('eshApp')
 		return busstop && busstop.events && busstop.events.length != 0;
 	};
 	$scope.isFavorite = function(eventId){
-		console.log(Auth.getCurrentUser());
 		var events = Auth.getCurrentUser().events;
 		if (events != undefined && events.length==0) {return false};
 		var event = _.findWhere(events, {_id: eventId});
